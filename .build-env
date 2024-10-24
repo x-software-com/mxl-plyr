@@ -1,0 +1,8 @@
+export LICENSES_DIR="${PKG_DIR}/usr/share/licenses"
+export APP_ID_BASE="com.x-software.mxl"
+export PACKAGE="mxl_plyr"
+export APP_NAME="MXL_Plyr"
+export PRODUCT_PRETTY_NAME="MXL Plyr"
+export APP_ID="${APP_ID_BASE}.plyr"
+export ADDITIONAL_MITHRA_ARGS=""
+export ADDITIONAL_LINUXDEPLOY_ARGS=""

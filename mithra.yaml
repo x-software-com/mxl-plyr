@@ -1,0 +1,150 @@
+vcpkg_ignores:
+  - directory: pthread
+    comment: Only an empty wrapper
+    os: linux
+  - directory: libiconv
+    comment: Only an empty wrapper
+    os: linux
+  - directory: pthreads
+    comment: Only an empty wrapper
+    os: linux
+  - directory: gettext-libintl
+    comment: Only an empty wrapper
+    os: linux
+  - directory: getopt
+    comment: Only used for command line parsing in tools which are not bundled
+    os: linux
+  - directory: xcb-util-m4
+    comment: Only used for building XCB
+    os: linux
+  - directory: pthread-stubs
+    comment: Only used for XCB, which is provided by the system
+    os: linux
+  - directory: gettext
+    comment: Not included in the package
+    os: linux
+  - directory: egl-registry
+    comment: This is only used by libepoxy - Do we need to include copyright of api compiled into a lib we use????
+    os: linux
+  - directory: dirent
+    comment: Only used internally by some packages - Do we need to include copyright of api compiled into a lib we use????
+    os: linux
+  - directory: xcb-proto
+    comment: Provided by the system
+    os: linux
+  - directory: xcb-render-util
+    comment: Provided by the system
+    os: linux
+  - directory: xorg-macros
+    comment: Provided by the system
+    os: linux
+  - directory: xtrans
+    comment: Provided by the system
+    os: linux
+  - directory: libxext
+    comment: Provided by the system
+    os: linux
+  - directory: xcb
+    comment: Provided by the system
+    os: linux
+  - directory: xproto
+    comment: Provided by the system
+    os: linux
+  - directory: libxdmcp
+    comment: Provided by the system
+    os: linux
+  - directory: libxau
+    comment: Provided by the system
+    os: linux
+  - directory: libx11
+    comment: Provided by the system
+    os: linux
+lib_ignores:
+  - lib: libbz2d.so.1.0
+    comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
+  - lib: libfreetyped.so.6
+    comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
+  - lib: libpng16d.so.16
+    comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
+  - lib: libtiffd.so.6
+    comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
+overrides:
+  - package: libyaml
+    license_id: MIT
+    comment: See https://github.com/yaml/libyaml/blob/master/License
+  - package: liblzma
+    license_id: Public Domain
+    license_files:
+      - id: Public Domain
+        file: data/third-party-licenses/liblzma-COPYING
+    comment: See https://github.com/tukaani-project/xz/blob/master/COPYING
+  - package: taglib
+    license_id: LGPL-2.1-only
+    comment: Override of LGPL-2.1-only OR MPL-1.1
+  - package: freetype
+    license_id: FTL
+    comment: Override of FTL OR GPL-2.0-or-later
+  - package: libselinux
+    license_id: libselinux-1.0
+    comment: Override of Public Domain
+  - package: libcap
+    license_id: BSD-3-Clause
+    comment: Override of BSD or GPLv2 (https://sites.google.com/site/fullycapable/)
+  - package: flac-libs
+    license_id: BSD-3-Clause
+    license_files:
+      - file: /usr/share/doc/flac-libs/COPYING.Xiph
+    comment: Override of BSD and GPLv2+ and GFDL (https://github.com/xiph/flac)
+  - package: dbus-libs
+    license_id: AFL-2.1
+    comment: Override of (GPLv2+ or AFL) and GPLv2+ (https://gitlab.freedesktop.org/dbus/dbus/-/blob/master/COPYING)
+  - package: lz4-libs
+    license_id: BSD-2-Clause
+    comment: Override of GPLv2+ and BSD (https://github.com/lz4/lz4/blob/dev/LICENSE)
+  - package: libsndfile
+    license_id: LGPL-2.0-or-later
+    comment: Override of LGPLv2+ and GPLv2+ and BSD
+  - package: libxslt
+    license_id: MIT-xslt
+    license_files:
+      - id: MIT-xslt
+        file: vcpkg_installed/x64-linux-dynamic/share/libxslt/copyright
+    comment: libxslt is MIT licensed with an except
+  - package: libblkid
+    license_id: LGPL-2.1-or-later
+    comment: Override of LGPLv2+
+  - package: libmount
+    license_id: LGPL-2.1-or-later
+    license_files:
+      - file: /usr/share/licenses/libmount/COPYING.LGPLv2.1
+    comment: Override of LGPLv2+
+  - package: libasyncns
+    license_id: LGPL-2.1-or-later
+    comment: Override of LGPLv2+
+  - package: libgcrypt
+    license_id: LGPL-2.1-or-later
+    comment: Override of LGPLv2+
+  - package: pulseaudio-libs
+    license_id: LGPL-2.1-or-later
+    license_files:
+      - file: /usr/share/doc/pulseaudio-libs/LGPL
+    comment: Override of LGPLv2+
+  - package: systemd-libs
+    license_id: LGPL-2.1-or-later
+    comment: Override of LGPLv2+ and MIT (https://www.freedesktop.org/wiki/Software/systemd/)
+  - package: libogg
+    license_id: BSD-3-Clause
+    comment: Override of BSD
+  - package: libvorbis
+    license_id: BSD-3-Clause
+    comment: Override of BSD
+  - package: ffmpeg
+    license_id: LGPL-2.1-or-later
+    comment: https://ffmpeg.org/legal.html
+  - package: tinystr
+    license_id: Unicode-v3
+    overwrite_all_license_ids: true
+    comment: License ID is invalid "License specified in file ($CARGO_HOME/registry/src/.../tinystr-0.7.4/LICENSE)"
+  - package: lzo
+    license_id: GPL-2.0-or-later
+    comment: License ID is missing but https://www.oberhumer.com/opensource/lzo/ states "GPL v2+"
