@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "dependencies": [
+    {
+      "name": "gstreamer",
+      "features": [
+        "plugins-bad",
+        "plugins-base",
+        "plugins-good",
+        "plugins-ugly",
+        {
+          "name": "alsa",
+          "platform": "linux"
+        },
+        {
+          "name": "nvcodec",
+          "platform": "!osx"
+        },
+        {
+          "name": "x11-bad",
+          "platform": "linux"
+        },
+        {
+          "name": "x11-base",
+          "platform": "linux"
+        },
+        "aom",
+        "dtls",
+        "fdkaac",
+        "flac",
+        "gl-graphene",
+        "gpl",
+        "libav",
+        "mpg123",
+        "openal",
+        "opus-base",
+        "opus-bad",
+        "pango",
+        "taglib",
+        "vorbis",
+        "vpx"
+      ]
+    },
+    {
+      "name": "librsvg"
+    },
+    {
+      "name": "gtk"
+    },
+    {
+      "name": "libadwaita"
+    }
+  ]
+}

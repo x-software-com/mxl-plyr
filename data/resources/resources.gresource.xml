@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <!-- The application icon must be under .../icons/scalable/apps to be found by the GTK icon theme class -->
+  <gresource prefix="/com/x-software/mxl/plyr/icons/scalable/apps">
+    <file compressed="true" preprocess="xml-stripblanks">com.x-software.mxl.plyr.svg</file>
+  </gresource>
+</gresources>

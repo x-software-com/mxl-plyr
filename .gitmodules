@@ -1,0 +1,12 @@
+[submodule "vcpkg-ports-mxl-plyr"]
+	path = vcpkg-ports-mxl-plyr
+	url = https://github.com/x-software-com/vcpkg-ports-mxl-plyr.git
+[submodule "vcpkg-ports-mxl"]
+	path = vcpkg-ports-mxl
+	url = https://github.com/x-software-com/vcpkg-ports-mxl.git
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/x-software-com/mxl-scripts.git
+[submodule "docker/appimage-setup"]
+	path = docker/appimage-setup
+	url = https://github.com/x-software-com/mxl-appimage-setup.git
