@@ -1,0 +1,98 @@
+name: "MXL Plyr build setup"
+description: "Setup the MXL Plyr build environment"
+inputs:
+  rust-toolchain:
+    description: Rust toolchain to install
+    required: true
+  rust-toolchain-components:
+    description: Comma-separated list of components to be additionally installed
+    required: false
+  build-profile:
+    description: Build profile for the MXL Plyr, either 'release' or 'development'
+    required: false
+    default: "release"
+  build-type:
+    description: The build type for the MXL Plyr, either 'release' or 'debug'
+    required: false
+    default: "release"
+  just-config:
+    description: Execute just config
+    required: false
+    default: true
+outputs:
+  version:
+    value: ${{ steps.get_version.outputs.version }}
+    description: Version of the MXL Plyr
+  just-options:
+    value: profile=${{ inputs.build-profile }} build-type=${{ inputs.build-type }}
+    description: Options use for the configuration with just
+runs:
+  using: "composite"
+  steps:
+    - name: Determine distribution info
+      id: osinfo
+      shell: bash {0}
+      run: |
+        # TODO: Add cases for macOS and Windows in the future
+        echo "id=$(lsb_release -si)" >> "$GITHUB_OUTPUT"
+        echo "major_version=$(lsb_release -sr | cut -d. -f1)" >> "$GITHUB_OUTPUT"
+    - name: Clear cached ~/.cargo directory
+      shell: bash {0}
+      run: rm -rf ~/.cargo
+    - name: Cache VCPKG packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/vcpkg
+        key: vcpkg-${{ runner.os }}-${{ runner.arch }}
+    - name: Install ${{ inputs.rust-toolchain }}
+      id: install_rust_toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: ${{ inputs.rust-toolchain }}
+        components: ${{ inputs.rust-toolchain-components }}
+    - name: Cache rust
+      uses: Swatinem/rust-cache@v2
+      with:
+        save-if: ${{ github.ref == 'refs/heads/main' }}
+        key: ${{ steps.osinfo.outputs.id }}-${{ steps.osinfo.outputs.major_version }}
+    - name: Execute setup.py
+      shell: bash {0}
+      run: |
+        source /etc/profile
+        cargo install --locked just
+        just setup-ci
+    # Wait until we can fix the issue: 'mkdir: cannot create directory '/.../mxl-plyr/mxl-plyr/vcpkg_cache': No such file or directory'
+    # - name: vcpkg build
+    #   id: vcpkg
+    #   uses: johnwason/vcpkg-action@v5
+    #   with:
+    #     extra-args: "--disable-metrics"
+    #     manifest-dir: ${{ github.workspace }} # Set to directory containing vcpkg.json
+    #     triplet: x64-linux-dynamic
+    #     token: ${{ github.token }}
+    - name: Create dotenv file
+      shell: bash {0}
+      run: |
+        source /etc/profile
+        just profile=${{ inputs.build-profile }} build-type=${{ inputs.build-type }} mxl-env
+    - name: Setup environment
+      uses: falti/dotenv-action@v1
+      with:
+        path: .mxl-env
+        keys-case: "bypass"
+        log-variables: true
+        export-variables: true
+    - name: Just config
+      if: ${{ inputs.just-config }}
+      shell: bash {0}
+      run: |
+        source /etc/profile
+        # FIXME: use eval to temporarily fix: https://github.com/falti/dotenv-action/issues/49
+        eval "$(./scripts/mxl-env.py --print-env)"
+        just config
+    - name: Get version
+      id: get_version
+      shell: bash {0}
+      run: |
+        source /etc/profile
+        echo "version=$(set -e;cargo version-util get-version)" >> "$GITHUB_OUTPUT"

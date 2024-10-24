@@ -1,0 +1,60 @@
+[package]
+name = "mxl_plyr"
+version = "0.1.0"
+license = "MIT OR APACHE-2.0"
+description = "Media player focused on the use with the MXL Recorder"
+keywords = [
+    "player",
+    "playback",
+    "multimedia",
+    "video",
+    "audio",
+    "gstreamer",
+    "relm4",
+]
+categories = ["multimedia", "multimedia::video", "multimedia::audio"]
+repository = "https://github.com/x-software-com/mxl-plyr"
+homepage = "https://github.com/x-software-com/mxl-plyr"
+readme = "README.md"
+edition = "2021"
+
+[dependencies]
+log = "0.4"
+anyhow = "1"
+const_format = "0.2"
+once_cell = "1"
+clap = { version = "4", features = ["derive"] }
+chrono = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+gst = { package = "gstreamer", version = "0.23", features = ["v1_24"] }
+mxl-base = { git = "https://github.com/x-software-com/mxl-base.git", tag = "v0.2.4" }
+mxl-relm4-components = { git = "https://github.com/x-software-com/mxl-relm4-components.git", tag = "v0.2.2", features = [
+    "third_party_licenses_dialog",
+] }
+relm4-icons = { version = "0.9", features = ["all"] }
+mxl-investigator = { git = "https://github.com/x-software-com/mxl-investigator.git", tag = "v0.1.18", features = [
+    "create_report_dialog",
+    "problem_report_dialog",
+] }
+mxl-player-components = { git = "https://github.com/x-software-com/mxl-player-components.git", tag = "v0.1.0" }
+
+# Internationalization:
+i18n-embed-fl = "0.9"
+rust-embed = { version = "8", features = ["debug-embed"] }
+i18n-embed = { version = "0.15", features = [
+    "fluent-system",
+    "desktop-requester",
+] }
+
+[features]
+default = ["x11egl", "x11glx", "wayland", "dmabuf"]
+x11egl = ["mxl-player-components/x11egl"]
+x11glx = ["mxl-player-components/x11glx"]
+wayland = ["mxl-player-components/wayland"]
+dmabuf = ["mxl-player-components/dmabuf"]
+
+[build-dependencies]
+vergen-gitcl = { version = "1", features = ["build", "cargo", "rustc", "si"] }
+glib-build-tools = "0.20"
+regex = { version = "1" }

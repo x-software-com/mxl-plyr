@@ -1,0 +1,47 @@
+from_latest_tag = false
+ignore_merge_commits = true
+tag_prefix = "v"
+branch_whitelist = ["main"]
+pre_bump_hooks = [
+  "just clippy",
+  "just hack",
+  "just cargo-fmt",
+  "cargo install cargo-edit",
+  "cargo set-version {{version}}",
+  "just build",
+]
+post_bump_hooks = ["git push", "git push origin v{{version}}"]
+pre_package_bump_hooks = []
+post_package_bump_hooks = []
+
+[commit_types]
+
+[git_hooks.commit-msg]
+script = """#!/bin/sh
+set -e
+
+echo "[ just cargo-fmt-check ]"
+just cargo-fmt-check
+
+echo "[ typos ]"
+typos
+
+echo "[ typos $1 ]"
+typos $1
+
+echo "[ cog verify ]"
+cog verify --file $1
+"""
+
+[changelog]
+path = "CHANGELOG.md"
+template = "remote"
+remote = "github.com"
+repository = "mxl-plyr"
+owner = "x-software-com"
+authors = [
+  { signature = "Andreas", username = "acpiccolo" },
+  { signature = "Marc", username = "marcbull" },
+]
+
+[bump_profiles]

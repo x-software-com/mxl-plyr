@@ -1,0 +1,231 @@
+name: package
+permissions:
+  packages: write
+on:
+  # Run on push to main branch, on a v* tag push and on manual workflow dispatch
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "v**"
+env:
+  RESULT_DIR: result
+jobs:
+  build_docker:
+    runs-on: ubuntu-latest
+    container:
+      image: docker:dind
+      # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      sha: ${{ steps.docker-build.outputs.sha-tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Build docker image
+        id: docker-build
+        uses: ./.github/workflows/docker-build
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image-name: build-package
+          context: docker
+          dockerfile: docker/Dockerfile
+  build_appimage_amd64:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/build-package:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        # Change shell invocation
+        shell: bash {0}
+    needs: [build_docker]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup MXL Plyr build environment
+        id: setup
+        uses: ./.github/workflows/mxl-setup
+        with:
+          rust-toolchain: stable
+      - name: Build AppImage
+        run: |
+          source /etc/profile
+          # FIXME: use eval to temporarily fix: https://github.com/falti/dotenv-action/issues/49
+          eval "$(./scripts/mxl-env.py --print-env)"
+          (
+            # set -o pipefail exits the script if a command piped with tee exits with an error
+            set -o pipefail
+            just ${{ steps.setup.outputs.just-options }} linuxdeployimg 2>&1 | tee build-linuxdeployimg-x86_64.log
+            just appimage-from-linuxdeployimg 2>&1 | tee build-appimage-x86_64.log
+          )
+      - uses: actions/upload-artifact@v4
+        with:
+          name: .mxl-env
+          path: .mxl-env
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AppImage-x86_64
+          path: result/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mxl_plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
+          path: result/mxl_plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-linuxdeployimg-x86_64.log
+          path: build-linuxdeployimg-x86_64.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-appimage-x86_64.log
+          path: build-appimage-x86_64.log
+  build_appimage_debug_amd64:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/build-package:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        # Change shell invocation
+        shell: bash {0}
+    needs: [build_docker]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup MXL Plyr build environment
+        id: setup
+        uses: ./.github/workflows/mxl-setup
+        with:
+          rust-toolchain: stable
+          build-type: debug
+      - name: Build AppImage
+        run: |
+          source /etc/profile
+          # FIXME: use eval to temporarily fix: https://github.com/falti/dotenv-action/issues/49
+          eval "$(./scripts/mxl-env.py --vcpkg-debug --print-env)"
+          (
+            # set -o pipefail exits the script if a command piped with tee exits with an error
+            set -o pipefail
+            just ${{ steps.setup.outputs.just-options }} linuxdeployimg 2>&1 | tee build-linuxdeployimg-debug-x86_64.log
+            just ${{ steps.setup.outputs.just-options }} appimage-from-linuxdeployimg 2>&1 | tee build-appimage-debug-x86_64.log
+          )
+      - uses: actions/upload-artifact@v4
+        with:
+          name: .mxl-env
+          path: .mxl-env
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AppImage-debug-x86_64
+          path: result/MXL_Plyr_debug-${{ steps.setup.outputs.version }}-x86_64.AppImage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mxl_plyr-debug-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
+          path: result/mxl_plyr-debug-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-linuxdeployimg-debug-x86_64.log
+          path: build-linuxdeployimg-debug-x86_64.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-appimage-debug-x86_64.log
+          path: build-appimage-debug-x86_64.log
+  build_makeself_amd64:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/build-package:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        # Change shell invocation
+        shell: bash {0}
+    needs: build_appimage_amd64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup MXL Plyr build environment
+        id: setup
+        uses: ./.github/workflows/mxl-setup
+        with:
+          rust-toolchain: stable
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: AppImage-x86_64
+          path: result
+      - name: Build makeself package
+        run: |
+          source /etc/profile
+          # set -o pipefail exits the script if a command piped with tee exits with an error
+          set -o pipefail
+          just makeself-from-appimage 2>&1 | tee build-makeself-linux-x86_64.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Makeself-Linux-x86_64
+          path: result/MXL_Plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.run
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-makeself-linux-x86_64.log
+          path: build-makeself-linux-x86_64.log
+  create-release:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/build-package:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+    needs:
+      [build_appimage_amd64, build_appimage_debug_amd64, build_makeself_amd64]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Setup MXL Plyr build environment
+        id: setup
+        uses: ./.github/workflows/mxl-setup
+        with:
+          rust-toolchain: stable
+      - name: Fetch all uploaded artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: result
+      - name: Create release notes
+        shell: bash {0}
+        run: |
+          source /etc/profile
+          echo "### Downloads" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "* [**Linux AppImage (x86-64)**](https://github.com/x-software-com/mxl-plyr/releases/download/v${{ steps.setup.outputs.version }}/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage)" >> RELEASE_NOTES.md
+          echo "* [**Linux self-extractable archive (x86-64)**](https://github.com/x-software-com/mxl-plyr/releases/download/v${{ steps.setup.outputs.version }}/MXL_Plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.run)" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "<details><summary>Changelog (Click to expand)</summary><p>" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          cog changelog --at ${{ github.ref_name }} >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "</p></details>" >> RELEASE_NOTES.md
+          echo "###### RELEASE_NOTES.md ######"
+          cat RELEASE_NOTES.md
+      - uses: ncipollo/release-action@v1.14.0
+        with:
+          draft: false
+          prerelease: false
+          artifacts: "result/AppImage-x86_64/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage,result/AppImage-debug-x86_64/MXL_Plyr_debug-${{ steps.setup.outputs.version }}-x86_64.AppImage,result/Makeself-Linux-x86_64/MXL_Plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.run"
+          name: "MXL Plyr ${{ steps.setup.outputs.version }}"
+          bodyFile: "RELEASE_NOTES.md"

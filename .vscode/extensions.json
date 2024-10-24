@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "Continue.continue",
+    "DavidAnson.vscode-markdownlint",
+    "esbenp.prettier-vscode",
+    "MS-vsliveshare.vsliveshare",
+    "rust-lang.rust-analyzer",
+    "skellock.just",
+    "streetsidesoftware.code-spell-checker-german",
+    "tamasfe.even-better-toml",
+    "usernamehw.errorlens",
+  ]
+}

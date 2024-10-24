@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=MXL Plyr
+Exec=@binary@ %U
+TryExec=@binary@
+Comment=Media player
+Icon=@icon@
+Type=Application
+Categories=AudioVideo;Player;
+Terminal=false
+MimeType=video/x-matroska;
