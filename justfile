@@ -13,6 +13,9 @@ appdir := "AppDir"
 install_prefix := / "usr"
 result_dir := "result"
 
+vcpkg_version := "2024.07.12"
+vcpkg_cache_dir := package + "-archive"
+
 alias c := config
 alias b := build
 alias i := install
@@ -37,7 +40,6 @@ setup-git:
 
 setup-cargo-tools:
     cargo install --locked typos-cli
-    cargo install --locked cargo-version-util
     cargo install --locked cargo-bundle-licenses
 
 setup-cocogitto:
@@ -113,7 +115,7 @@ cargo-fmt-check:
 #
 
 install-vcpkg:
-    ./scripts/install-vcpkg.py --project-name=mxl_plyr --vcpkg-version=2024.07.12
+    ./scripts/install-vcpkg.py --project-name={{package}} --vcpkg-version={{vcpkg_version}}
 
 self-update:
     cargo install --locked just
@@ -129,11 +131,17 @@ clean:
     cargo clean
     rm -rf vcpkg_installed vcpkg {{builddir}}
 
+clean-cache: clean
+    rm -rf ~/.cache/vcpkg/{{vcpkg_cache_dir}}
+
 #
 # Docker image for local testing:
 #
 
 docker-tag := "mxl-plyr-test"
+
+docker-build-no-cache:
+    docker build --no-cache -t {{docker-tag}} -f docker/Dockerfile docker
 
 docker-build:
     docker build -t {{docker-tag}} -f docker/Dockerfile docker
@@ -143,7 +151,11 @@ docker-run: docker-build
     set -e
     # Get parent directory as the mountpoint for the volume.
     MOUNT_DIR="$(dirname "$(pwd)")"
-    docker run --privileged=true -it --rm -v ${HOME}/.ssh:/root/.ssh -v ${MOUNT_DIR}:${MOUNT_DIR} --workdir $(pwd) {{docker-tag}} bash
+    docker run --privileged=true -it --rm \
+        -v ${HOME}/.ssh:/root/.ssh \
+        -v /var/cache/vcpkg:/root/.cache/vcpkg \
+        -v ${MOUNT_DIR}:${MOUNT_DIR} \
+        --workdir $(pwd) {{docker-tag}} bash
 
 #
 # Commands to test build in Docker image:
@@ -173,4 +185,3 @@ docker-build-makeself:
         set -o pipefail
         just --justfile {{justfile()}} makeself-from-appimage 2>&1 | tee {{result_dir}}/build-makeself.log
     )
-
