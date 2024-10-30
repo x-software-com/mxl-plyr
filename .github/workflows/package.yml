@@ -78,7 +78,7 @@ jobs:
           path: result/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage
       - uses: actions/upload-artifact@v4
         with:
-          name: mxl_plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
+          name: Release-Linux-x86_64-debuginfo
           path: result/mxl_plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
       - uses: actions/upload-artifact@v4
         with:
@@ -131,7 +131,7 @@ jobs:
           path: result/MXL_Plyr_debug-${{ steps.setup.outputs.version }}-x86_64.AppImage
       - uses: actions/upload-artifact@v4
         with:
-          name: mxl_plyr-debug-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
+          name: Debug-Linux-x86_64-debuginfo
           path: result/mxl_plyr-debug-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
       - uses: actions/upload-artifact@v4
         with:
@@ -226,6 +226,6 @@ jobs:
         with:
           draft: false
           prerelease: false
-          artifacts: "result/AppImage-x86_64/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage,result/AppImage-debug-x86_64/MXL_Plyr_debug-${{ steps.setup.outputs.version }}-x86_64.AppImage,result/Makeself-Linux-x86_64/MXL_Plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.run"
+          artifacts: "result/AppImage-x86_64/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage,result/AppImage-debug-x86_64/MXL_Plyr_debug-${{ steps.setup.outputs.version }}-x86_64.AppImage,result/Makeself-Linux-x86_64/MXL_Plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.run,result/Release-Linux-x86_64-debuginfo/mxl_plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz,result/Debug-Linux-x86_64-debuginfo/mxl_plyr-debug-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz"
           name: "MXL Plyr ${{ steps.setup.outputs.version }}"
           bodyFile: "RELEASE_NOTES.md"
