@@ -41,6 +41,7 @@ setup-git:
 setup-cargo-tools:
     cargo install --locked typos-cli
     cargo install --locked cargo-bundle-licenses
+    cargo install --locked cargo-version-util
 
 setup-cocogitto:
     cargo install --locked cocogitto
