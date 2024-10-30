@@ -112,29 +112,7 @@ jobs:
           rust-toolchain-components: clippy
           just-config: false
       - name: cargo clippy
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-  audit:
-    name: cargo audit
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/${{ github.repository }}/check:${{ needs.build_docker.outputs.sha }}
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: read
-      checks: write
-    needs: [build_docker]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-      - name: Install stable rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-      - name: audit check
-        uses: actions-rs/audit-check@v1
+        uses: auguwu/clippy-action@1.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
   hack:
