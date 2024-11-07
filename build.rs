@@ -1,7 +1,7 @@
 use vergen_gitcl::{BuildBuilder, CargoBuilder, Emitter, GitclBuilder, RustcBuilder, SysinfoBuilder};
 
 fn get_optional_env(key: &str) -> Option<String> {
-    if let Some(val) = std::env::var(key).ok() {
+    if let Ok(val) = std::env::var(key) {
         if !val.is_empty() {
             return Some(val);
         }
