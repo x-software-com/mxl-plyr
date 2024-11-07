@@ -36,9 +36,6 @@ runs:
         # TODO: Add cases for macOS and Windows in the future
         echo "id=$(lsb_release -si)" >> "$GITHUB_OUTPUT"
         echo "major_version=$(lsb_release -sr | cut -d. -f1)" >> "$GITHUB_OUTPUT"
-    - name: Clear cached ~/.cargo directory
-      shell: bash {0}
-      run: rm -rf ~/.cargo
     - name: Cache VCPKG packages
       uses: actions/cache@v4
       with:
