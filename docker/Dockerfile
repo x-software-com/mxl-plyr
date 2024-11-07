@@ -16,6 +16,11 @@ RUN dnf -y install xz bzip2 less python3.11-pip \
   && dnf clean all \
   && rm -rf /var/cache/dnf
 
+# Install zstd for actions/cache see: https://github.com/actions/cache/issues/1455#issuecomment-2328358604
+RUN dnf -y install zstd \
+  && dnf clean all \
+  && rm -rf /var/cache/dnf
+
 RUN pip3 install meson
 
 ARG DEVTOOLSET=gcc-toolset-12
