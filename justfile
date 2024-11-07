@@ -13,7 +13,7 @@ appdir := "AppDir"
 install_prefix := / "usr"
 result_dir := "result"
 
-vcpkg_version := "2024.07.12"
+vcpkg_version := "2024.10.21"
 vcpkg_cache_dir := package + "-archive"
 
 alias c := config
