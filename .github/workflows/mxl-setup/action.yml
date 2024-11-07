@@ -58,15 +58,6 @@ runs:
         source /etc/profile
         cargo install --locked just
         just setup-ci
-    # Wait until we can fix the issue: 'mkdir: cannot create directory '/.../mxl-plyr/mxl-plyr/vcpkg_cache': No such file or directory'
-    # - name: vcpkg build
-    #   id: vcpkg
-    #   uses: johnwason/vcpkg-action@v5
-    #   with:
-    #     extra-args: "--disable-metrics"
-    #     manifest-dir: ${{ github.workspace }} # Set to directory containing vcpkg.json
-    #     triplet: x64-linux-dynamic
-    #     token: ${{ github.token }}
     - name: Create dotenv file
       shell: bash {0}
       run: |
