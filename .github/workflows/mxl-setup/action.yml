@@ -52,7 +52,7 @@ runs:
       with:
         save-if: ${{ github.ref == 'refs/heads/main' }}
         key: ${{ steps.osinfo.outputs.id }}-${{ steps.osinfo.outputs.major_version }}
-    - name: Execute setup.py
+    - name: Execute setup
       shell: bash {0}
       run: |
         source /etc/profile
