@@ -58,3 +58,18 @@ dmabuf = ["mxl-player-components/dmabuf"]
 vergen-gitcl = { version = "1", features = ["build", "cargo", "rustc", "si"] }
 glib-build-tools = "0.20"
 regex = { version = "1" }
+
+##
+## For local path overrides for MXL crate development uncomment the flollwing block:
+## NOTE: You must run `cargo update` after changing this for it to take effect!
+##
+# [patch."https://github.com/x-software-com/mxl-base.git"]
+# mxl-base = { path = "../mxl-base" }
+# [patch."https://github.com/x-software-com/mxl-relm4-components.git"]
+# mxl-relm4-components = { path = "../mxl-relm4-components" }
+# [patch."https://github.com/x-software-com/mxl-investigator.git"]
+# mxl-investigator = { path = "../mxl-investigator" }
+# [patch."https://github.com/x-software-com/mxl-player-components.git"]
+# mxl-player-components = { path = "../mxl-player-components" }
+# [patch."https://github.com/x-software-com/mithra.git"]
+# mithra = { path = "../mithra" }
