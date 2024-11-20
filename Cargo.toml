@@ -28,16 +28,16 @@ chrono = "0.4"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 gst = { package = "gstreamer", version = "0.23", features = ["v1_24"] }
-mxl-base = { git = "https://github.com/x-software-com/mxl-base.git", tag = "v0.2.4" }
-mxl-relm4-components = { git = "https://github.com/x-software-com/mxl-relm4-components.git", tag = "v0.2.2", features = [
+mxl-base = "0.2.5"
+mxl-relm4-components = { version = "0.2.3", features = [
     "third_party_licenses_dialog",
 ] }
 relm4-icons = { version = "0.9", features = ["all"] }
-mxl-investigator = { git = "https://github.com/x-software-com/mxl-investigator.git", tag = "v0.1.18", features = [
+mxl-investigator = { version = "0.1.19", features = [
     "create_report_dialog",
     "problem_report_dialog",
 ] }
-mxl-player-components = { git = "https://github.com/x-software-com/mxl-player-components.git", tag = "v0.1.0" }
+mxl-player-components = "0.1.1"
 
 # Internationalization:
 i18n-embed-fl = "0.9"
@@ -63,13 +63,9 @@ regex = { version = "1" }
 ## For local path overrides for MXL crate development uncomment the flollwing block:
 ## NOTE: You must run `cargo update` after changing this for it to take effect!
 ##
-# [patch."https://github.com/x-software-com/mxl-base.git"]
-# mxl-base = { path = "../mxl-base" }
-# [patch."https://github.com/x-software-com/mxl-relm4-components.git"]
-# mxl-relm4-components = { path = "../mxl-relm4-components" }
-# [patch."https://github.com/x-software-com/mxl-investigator.git"]
-# mxl-investigator = { path = "../mxl-investigator" }
-# [patch."https://github.com/x-software-com/mxl-player-components.git"]
-# mxl-player-components = { path = "../mxl-player-components" }
-# [patch."https://github.com/x-software-com/mithra.git"]
-# mithra = { path = "../mithra" }
+# [patch.crates-io]
+# mxl-base = { path = "../mxl-crates/mxl-base" }
+# mxl-relm4-components = { path = "../mxl-crates/mxl-relm4-components" }
+# mxl-investigator = { path = "../mxl-crates/mxl-investigator" }
+# mxl-player-components = { path = "../mxl-crates/mxl-player-components" }
+# sancus = { path = "../sancus" }
