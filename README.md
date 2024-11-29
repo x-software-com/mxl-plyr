@@ -47,7 +47,8 @@ Prerequisites:
 ### Install just and download the repository
 
 ```sh
-cargo install --locked just
+cargo install --locked cargo-binstall
+cargo binstall just
 git clone https://github.com/x-software-com/mxl-plyr
 cd mxl-plyr
 ```
@@ -113,7 +114,7 @@ $ pip3 install meson
 $ sudo apt-get update
 $ sudo apt-get install build-essential git tar curl zip unzip rsync clang nasm autoconf libtool \
     bison meson flex gettext patchelf libx11-dev libxft-dev libxext-dev  libx11-dev \
-    xserver-xorg-dev xorg-dev libxkbcommon-dev libxkbcommon-x11-dev libx11-xcb-dev \
+    xserver-xorg-dev xorg-dev libxkbcommon-dev libxkbcommon-x11-dev libx11-xcb-dev libva-dev \
     libgles2-mesa-dev  libglu1-mesa-dev freeglut3-dev mesa-common-dev libegl1-mesa-dev \
     libvulkan-dev libwayland-dev wayland-protocols libpulse-dev linux-tools-common \
     linux-tools-generic desktop-file-utils

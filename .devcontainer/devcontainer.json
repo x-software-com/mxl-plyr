@@ -1,0 +1,72 @@
+{
+    "build": {
+        "dockerfile": "./Dockerfile",
+        "context": "."
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": "true",
+            "username": "vscode",
+            "userUid": "1000",
+            "userGid": "1000",
+            "upgradePackages": "true"
+        },
+        "ghcr.io/devcontainers/features/rust:1": "latest",
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+        },
+        "ghcr.io/devcontainers/features/desktop-lite:1": {}
+    },
+    "forwardPorts": [6080, 5901],
+    "portsAttributes": {
+      "6080": {
+        "label": "novnc-desktop"
+      },
+      "5901": {
+        "label": "vnc-desktop"
+      }
+    },
+    "mounts": [
+        {
+            "type": "bind",
+            "source": "${localEnv:HOME}/.ssh",
+            "target": "/home/vscode/.ssh"
+        },
+        {
+            "type": "bind",
+            "source": "${localEnv:HOME}/Videos",
+            "target": "/home/vscode/Videos"
+        },
+        {
+			"source": "devcontainer-cargo-cache-${devcontainerId}",
+			"target": "/usr/local/cargo",
+			"type": "volume"
+		}
+    ],
+    "dev.containers.copyGitConfig": true,
+    "postCreateCommand": "cargo install --locked cargo-binstall && cargo binstall --no-confirm just && just cargo-install-cmd='cargo binstall --no-confirm' setup",
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Continue.continue",
+                "DavidAnson.vscode-markdownlint",
+                "esbenp.prettier-vscode",
+                "fill-labs.dependi",
+                "github.vscode-github-actions",
+                "GitHub.vscode-pull-request-github",
+                "mkhl.shfmt",
+                "ms-azuretools.vscode-docker",
+                "MS-vsliveshare.vsliveshare",
+                "rust-lang.rust-analyzer",
+                "skellock.just",
+                "streetsidesoftware.code-spell-checker",
+                "tamasfe.even-better-toml",
+                "timonwong.shellcheck",
+                "usernamehw.errorlens",
+                "vadimcn.vscode-lldb"
+            ]
+        }
+    }
+}

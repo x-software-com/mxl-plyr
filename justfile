@@ -16,6 +16,10 @@ result_dir := "result"
 vcpkg_version := "2024.10.21"
 vcpkg_cache_dir := package + "-archive"
 
+# To speed up build times use 'cargo binstall --no-confirm'.
+# On AlmaLinux 8 binstall cannot be used, due to GLIBC issues.
+cargo-install-cmd := "cargo install --locked"
+
 alias c := config
 alias b := build
 alias i := install
@@ -24,11 +28,14 @@ alias i := install
 # Setup the environment:
 #
 
-setup-cargo-hack:
-    cargo install --locked cargo-hack
+setup-cargo-binstall:
+    cargo install --locked cargo-binstall
 
-setup-cargo-audit:
-    cargo install --locked cargo-audit
+setup-cargo-hack: setup-cargo-binstall
+    {{cargo-install-cmd}} cargo-hack
+
+setup-cargo-audit: setup-cargo-binstall
+    {{cargo-install-cmd}} cargo-audit
 
 setup-mxl-env: install-vcpkg
     ./scripts/mxl-env.py --print-env --no-export-print-env > .mxl-env
@@ -38,13 +45,13 @@ setup-git:
     git config pull.rebase true
     git config branch.autoSetupRebase always
 
-setup-cargo-tools:
-    cargo install --locked typos-cli
-    cargo install --locked cargo-bundle-licenses
-    cargo install --locked cargo-version-util
+setup-cargo-tools: setup-cargo-binstall
+    {{cargo-install-cmd}} typos-cli
+    {{cargo-install-cmd}} cargo-bundle-licenses
+    {{cargo-install-cmd}} cargo-version-util
 
-setup-cocogitto:
-    cargo install --locked cocogitto
+setup-cocogitto: setup-cargo-binstall
+    {{cargo-install-cmd}} cocogitto
     cog install-hook --overwrite commit-msg
 
 setup: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-cocogitto self-update remove-mxl-env
@@ -55,7 +62,6 @@ setup-vcpkg: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-tools setu
 
 setup-ci: setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-mxl-env
     git config --global --add safe.directory $(pwd)
-
 
 #
 # Recipes for packaging:
@@ -118,8 +124,8 @@ cargo-fmt-check:
 install-vcpkg:
     ./scripts/install-vcpkg.py --project-name={{package}} --vcpkg-version={{vcpkg_version}}
 
-self-update:
-    cargo install --locked just
+self-update: setup-cargo-binstall
+    {{cargo-install-cmd}} just
 
 mxl-env:
     ./scripts/mxl-env.py
