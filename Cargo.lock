@@ -2256,7 +2256,6 @@ dependencies = [
  "mxl-investigator",
  "mxl-player-components",
  "mxl-relm4-components",
- "once_cell",
  "regex",
  "relm4-icons",
  "rust-embed",

@@ -17,12 +17,12 @@ repository = "https://github.com/x-software-com/mxl-plyr"
 homepage = "https://github.com/x-software-com/mxl-plyr"
 readme = "README.md"
 edition = "2021"
+rust-version = "1.80"
 
 [dependencies]
 log = "0.4"
 anyhow = "1"
 const_format = "0.2"
-once_cell = "1"
 clap = { version = "4", features = ["derive"] }
 chrono = "0.4"
 serde = { version = "1", features = ["derive"] }
