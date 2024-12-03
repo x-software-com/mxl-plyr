@@ -2,17 +2,17 @@ use i18n_embed::{
     fluent::{fluent_language_loader, FluentLanguageLoader},
     DefaultLocalizer, DesktopLanguageRequester, LanguageLoader, Localizer,
 };
-use once_cell::sync::OnceCell;
 use rust_embed::RustEmbed;
+use std::sync::OnceLock;
 
 #[derive(RustEmbed)]
 #[folder = "i18n/"]
 struct Localizations;
 
 // A language loader must always needs to be initialized by an init function.
-// Do not use an automatic initialization implementation such as "once_cell::sync::Lacy",
+// Do not use an automatic initialization implementation such as "std::sync::LacyLock",
 // this can lead to a deadlock!
-pub static LANGUAGE_LOADER: OnceCell<FluentLanguageLoader> = OnceCell::new();
+pub static LANGUAGE_LOADER: OnceLock<FluentLanguageLoader> = OnceLock::new();
 
 pub(crate) fn init() {
     LANGUAGE_LOADER.get_or_init(|| {
