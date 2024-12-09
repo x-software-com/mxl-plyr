@@ -84,7 +84,7 @@ jobs:
         with:
           submodules: true
       - name: Check for typos
-        uses: crate-ci/typos@v1.27.3
+        uses: crate-ci/typos@v1.28.2
   clippy:
     name: ${{ matrix.toolchain }} / clippy
     runs-on: ubuntu-latest
