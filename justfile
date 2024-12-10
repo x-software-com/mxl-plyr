@@ -16,10 +16,6 @@ result_dir := "result"
 vcpkg_version := "2024.10.21"
 vcpkg_cache_dir := package + "-archive"
 
-# To speed up build times use 'cargo binstall --no-confirm'.
-# On AlmaLinux 8 binstall cannot be used, due to GLIBC issues.
-cargo-install-cmd := "cargo install --locked"
-
 alias c := config
 alias b := build
 alias i := install
@@ -28,14 +24,11 @@ alias i := install
 # Setup the environment:
 #
 
-setup-cargo-binstall:
-    cargo install --locked cargo-binstall
+setup-cargo-hack:
+    cargo install cargo-hack
 
-setup-cargo-hack: setup-cargo-binstall
-    {{cargo-install-cmd}} cargo-hack
-
-setup-cargo-audit: setup-cargo-binstall
-    {{cargo-install-cmd}} cargo-audit
+setup-cargo-audit:
+    cargo install cargo-audit
 
 setup-mxl-env: install-vcpkg
     ./scripts/mxl-env.py --print-env --no-export-print-env > .mxl-env
@@ -45,13 +38,13 @@ setup-git:
     git config pull.rebase true
     git config branch.autoSetupRebase always
 
-setup-cargo-tools: setup-cargo-binstall
-    {{cargo-install-cmd}} typos-cli
-    {{cargo-install-cmd}} cargo-bundle-licenses
-    {{cargo-install-cmd}} cargo-version-util
+setup-cargo-tools:
+    cargo install typos-cli
+    cargo install cargo-bundle-licenses
+    cargo install cargo-version-util
 
-setup-cocogitto: setup-cargo-binstall
-    {{cargo-install-cmd}} cocogitto
+setup-cocogitto:
+    cargo install cocogitto
     cog install-hook --overwrite commit-msg
 
 setup: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-cocogitto self-update remove-mxl-env
@@ -124,8 +117,8 @@ cargo-fmt-check:
 install-vcpkg:
     ./scripts/install-vcpkg.py --project-name={{package}} --vcpkg-version={{vcpkg_version}}
 
-self-update: setup-cargo-binstall
-    {{cargo-install-cmd}} just
+self-update:
+    cargo install just
 
 mxl-env:
     ./scripts/mxl-env.py

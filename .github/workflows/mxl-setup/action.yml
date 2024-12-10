@@ -56,7 +56,7 @@ runs:
       shell: bash {0}
       run: |
         source /etc/profile
-        cargo install --locked just
+        cargo install just
         just setup-ci
     - name: Create dotenv file
       shell: bash {0}
