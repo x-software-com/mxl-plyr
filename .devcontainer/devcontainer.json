@@ -39,13 +39,19 @@
             "target": "/home/vscode/Videos"
         },
         {
-			"source": "devcontainer-cargo-cache-${devcontainerId}",
-			"target": "/usr/local/cargo",
-			"type": "volume"
-		}
+            "source": "devcontainer-vcpkg-cache-${localWorkspaceFolderBasename}-${devcontainerId}",
+            "target": "/home/vscode/.cache/vcpkg",
+            "type": "volume"
+        },
+        {
+            "source": "devcontainer-cargo-cache-${localWorkspaceFolderBasename}-${devcontainerId}",
+            "target": "/usr/local/cargo",
+            "type": "volume"
+        }
     ],
     "dev.containers.copyGitConfig": true,
-    "postCreateCommand": "cargo install --locked cargo-binstall && cargo binstall --no-confirm just && just cargo-install-cmd='cargo binstall --no-confirm' setup",
+    "initializeCommand": "mkdir -p ${localEnv:HOME}/Videos",
+    "postCreateCommand": "cargo install just && just setup",
     "remoteUser": "vscode",
     "customizations": {
         "vscode": {

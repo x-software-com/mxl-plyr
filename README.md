@@ -47,8 +47,7 @@ Prerequisites:
 ### Install just and download the repository
 
 ```sh
-cargo install --locked cargo-binstall
-cargo binstall just
+cargo install just
 git clone https://github.com/x-software-com/mxl-plyr
 cd mxl-plyr
 ```

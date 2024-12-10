@@ -74,9 +74,10 @@ RUN pushd /tmp \
   && rm -rf /tmp/${PACKAGE}*
 
 # Install rust and some cargo tools
+ARG RUST_VERSION=1.83.0
 RUN export RUSTUP_HOME=/opt/rust \
   && export CARGO_HOME=/opt/rust \
-  && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path \
+  && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain ${RUST_VERSION} \
   && unset RUSTUP_HOME CARGO_HOME \
   && printf '#!/bin/sh\nsource /opt/rust/env\ncase ":${PATH}:" in\n    *:"$HOME/.cargo/bin":*)\n        ;;\n    *)\n        export PATH="$HOME/.cargo/bin:$PATH"\n        ;;\nesac\n' > /etc/profile.d/rust.sh \
   && source /etc/profile.d/rust.sh \
@@ -86,7 +87,8 @@ RUN export RUSTUP_HOME=/opt/rust \
   && cargo install cargo-bundle-licenses \
   && cargo install cargo-audit \
   && cargo install typos-cli \
-  && cargo install cargo-version-util
+  && cargo install cargo-version-util \
+  && cargo install cargo-hack
 
 # Requirements for 'cargo test' implementing integration tests using X11
 RUN yum -y install \
