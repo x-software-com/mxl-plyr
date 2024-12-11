@@ -52,6 +52,7 @@
     "dev.containers.copyGitConfig": true,
     "initializeCommand": "mkdir -p ${localEnv:HOME}/Videos",
     "postCreateCommand": "cargo install just && just setup",
+    "waitFor": "postCreateCommand",
     "remoteUser": "vscode",
     "customizations": {
         "vscode": {
