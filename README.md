@@ -40,7 +40,7 @@ If you need a feature or encounter a problem, you can [open an issue on the GitH
 Prerequisites:
 
 - [Git][getting-started:git]
-- [Rust][getting-started:rust] >= 1.56.0
+- [Rust][getting-started:rust]
 - [Python][getting-started:python]
 - GCC **or** clang
 
@@ -166,4 +166,4 @@ MXL Plyr does respect your privacy, we collect no data and do not send any telem
 
 # License
 
-The code in this repository is licensed under either of [APACHE-2.0 License](LICENSE-APACHE) or [MIT License](LICENSE-MIT) at your option.
+The code in this repository is licensed under either of [Apache-2.0 License](LICENSE-APACHE) or [MIT License](LICENSE-MIT) at your option.
