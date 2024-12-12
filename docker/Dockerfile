@@ -2,7 +2,7 @@ FROM almalinux:8
 
 LABEL org.opencontainers.image.source=https://github.com/x-software-com/mxl-docker
 LABEL org.opencontainers.image.description="Build image for MXL Plyr"
-LABEL org.opencontainers.image.licenses="MIT OR APACHE-2.0"
+LABEL org.opencontainers.image.licenses="MIT OR Apache-2.0"
 
 RUN sed -i -re "s|enabled=0|enabled=1|g" /etc/yum.repos.d/almalinux-powertools.repo
 
