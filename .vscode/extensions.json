@@ -9,5 +9,9 @@
     "streetsidesoftware.code-spell-checker-german",
     "tamasfe.even-better-toml",
     "usernamehw.errorlens",
+  ],
+  "unwantedRecommendations": [
+    "skellock.just",
+    "kokakiwi.vscode-just"
   ]
 }
