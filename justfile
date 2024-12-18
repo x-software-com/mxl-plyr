@@ -131,7 +131,13 @@ clean:
     cargo clean
     rm -rf vcpkg_installed vcpkg {{builddir}}
 
-clean-cache: clean
+clean-build: clean
+    rm -rf .mxl-env build
+    find . -name "config.rs" -delete
+    find . -name "*_third_party_licenses.json" -delete
+    find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+
+clean-cache: clean-build
     rm -rf ~/.cache/vcpkg/{{vcpkg_cache_dir}}
 
 #
@@ -156,6 +162,17 @@ docker-run: docker-build
         -v /var/cache/vcpkg:/root/.cache/vcpkg \
         -v ${MOUNT_DIR}:${MOUNT_DIR} \
         --workdir $(pwd) {{docker-tag}} bash
+
+docker-run-clean:
+    #!/usr/bin/env bash
+    set -eo pipefail
+    # Get parent directory as the mountpoint for the volume.
+    MOUNT_DIR="$(dirname "$(pwd)")"
+    docker run --privileged=true -it --rm \
+        -v ${HOME}/.ssh:/root/.ssh \
+        -v /var/cache/vcpkg:/root/.cache/vcpkg \
+        -v ${MOUNT_DIR}:${MOUNT_DIR} \
+        --workdir $(pwd) {{docker-tag}} bash -lc 'just clean-build'
 
 #
 # Commands to test build in Docker image:
