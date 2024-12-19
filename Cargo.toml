@@ -1,6 +1,6 @@
 [package]
 name = "mxl_plyr"
-version = "1.0.0"
+version = "1.1.0"
 license = "MIT OR Apache-2.0"
 description = "Media player focused on the use with the MXL Recorder"
 keywords = [
