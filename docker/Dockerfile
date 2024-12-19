@@ -36,7 +36,6 @@ RUN dnf -y install diffutils pkgconfig nasm yasm clang rsync desktop-file-utils 
 
 RUN dnf -y install \
   pulseaudio-libs-devel vulkan-loader-devel \
-  wayland-devel wayland-protocols-devel \
   libva-devel \
   mesa-libGL-devel libX11-devel libXft-devel libXext-devel libXrandr-devel libXi-devel libXcursor-devel libXdamage-devel libXinerama-devel libxkbcommon-devel libxkbcommon-x11-devel \
   perl-IPC-Cmd gtk-update-icon-cache \
@@ -61,8 +60,25 @@ RUN echo -e "export PKG_CONFIG=/usr/local/bin/pkg-config" >> /etc/profile.d/pkg-
 RUN echo -e "export PATH=/usr/local/bin\${PATH:+:\${PATH}}" >> /etc/profile.d/usr-local-path.sh
 
 # Install latest wayland version for GTK/GStreamer
+RUN dnf -y install \
+  libxml2-devel \
+  && dnf clean all \
+  && rm -rf /var/cache/dnf
+
+ARG PACKAGE=wayland
+ARG VERSION=1.23.1
+RUN pushd /tmp \
+  && curl -LO https://gitlab.freedesktop.org/wayland/${PACKAGE}/-/releases/${VERSION}/downloads/${PACKAGE}-${VERSION}.tar.xz \
+  && tar -xf ${PACKAGE}-${VERSION}.tar.xz \
+  && cd ${PACKAGE}-${VERSION} \
+  && source /etc/profile.d/compiler.sh \
+  && meson -Ddocumentation=false build/ \
+  && ninja -C build/ install \
+  && popd \
+  && rm -rf /tmp/${PACKAGE}*
+
 ARG PACKAGE=wayland-protocols
-ARG VERSION=1.33
+ARG VERSION=1.38
 RUN pushd /tmp \
   && curl -LO https://gitlab.freedesktop.org/wayland/${PACKAGE}/-/releases/${VERSION}/downloads/${PACKAGE}-${VERSION}.tar.xz \
   && tar -xf ${PACKAGE}-${VERSION}.tar.xz \
