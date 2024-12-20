@@ -33,7 +33,7 @@ mxl-relm4-components = { version = "0.2.3", features = [
     "third_party_licenses_dialog",
 ] }
 relm4-icons = { version = "0.9", features = ["all"] }
-mxl-investigator = { version = "0.1.19", features = [
+mxl-investigator = { version = "0.1.21", features = [
     "create_report_dialog",
     "problem_report_dialog",
 ] }

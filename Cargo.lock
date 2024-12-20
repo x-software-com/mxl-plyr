@@ -2164,9 +2164,9 @@ dependencies = [
 
 [[package]]
 name = "mxl-investigator"
-version = "0.1.20"
+version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "301eddebcadf9359b95fb595fc210c8dc20777e8857822bf21ce2fed70907fd5"
+checksum = "42711318a7ec0daebb34214cfea0b38a7534503602f42b80c45d6cae022134c2"
 dependencies = [
  "anyhow",
  "chrono",
