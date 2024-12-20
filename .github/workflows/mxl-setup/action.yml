@@ -36,8 +36,9 @@ runs:
         # TODO: Add cases for macOS and Windows in the future
         echo "id=$(lsb_release -si)" >> "$GITHUB_OUTPUT"
         echo "major_version=$(lsb_release -sr | cut -d. -f1)" >> "$GITHUB_OUTPUT"
-    - name: Cache VCPKG packages
-      uses: actions/cache@v4
+    - name: Restore VCPKG packages cache
+      uses: actions/cache/restore@v4
+      id: vckpg-cache-restore
       with:
         path: ~/.cache/vcpkg
         key: vcpkg-${{ runner.os }}-${{ runner.arch }}
@@ -51,13 +52,18 @@ runs:
       uses: Swatinem/rust-cache@v2
       with:
         save-if: ${{ github.ref == 'refs/heads/main' }}
-        key: ${{ steps.osinfo.outputs.id }}-${{ steps.osinfo.outputs.major_version }}
+        # key: ${{ steps.osinfo.outputs.id }}-${{ steps.osinfo.outputs.major_version }}
     - name: Execute setup
       shell: bash {0}
       run: |
         source /etc/profile
         cargo install just
         just setup-ci
+    - name: Save VCPKG packages cache
+      uses: actions/cache/save@v4
+      with:
+        path: ~/.cache/vcpkg
+        key: ${{ steps.vckpg-cache-restore.outputs.cache-primary-key }}
     - name: Create dotenv file
       shell: bash {0}
       run: |
