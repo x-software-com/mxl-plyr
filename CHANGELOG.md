@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v1.1.1](https://github.com/x-software-com/mxl-plyr/compare/d8fc11774f833d56d36611275c56670461d997a1..v1.1.1) - 2024-12-20
+#### Bug Fixes
+- update mxl-investigator to 0.1.21 - ([d514674](https://github.com/x-software-com/mxl-plyr/commit/d51467473ee59dafb54ba9baa26682bc5a953d38)) - marcbull
+#### Continuous Integration
+- fix vcpkg caching - ([d8fc117](https://github.com/x-software-com/mxl-plyr/commit/d8fc11774f833d56d36611275c56670461d997a1)) - marcbull
+
+- - -
+
 ## [v1.1.0](https://github.com/x-software-com/mxl-plyr/compare/34a1eecc0d8aa20f0dafc4b4da6b091cf9296b66..v1.1.0) - 2024-12-19
 #### Bug Fixes
 - update crates - ([687919e](https://github.com/x-software-com/mxl-plyr/commit/687919e53d90f959c60ef0b5bc5d8b0e1fa25835)) - marcbull
