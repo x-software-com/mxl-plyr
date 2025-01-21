@@ -720,7 +720,9 @@ impl Component for App {
             m
         });
         menu_model.append(Some(&fl!("toggle-full-screen")), Some(&ToggleFullScreen::action_name()));
-        menu_model.append(Some(&fl!("dump-pipeline")), Some(&DumpPipeline::action_name()));
+        if cfg!(debug_assertions) {
+            menu_model.append(Some(&fl!("dump-pipeline")), Some(&DumpPipeline::action_name()));
+        }
         menu_model.append_section(None, &{
             let m = gio::Menu::new();
             m.append(Some(&fl!("video-offsets")), Some(&VideoOffsets::action_name()));
@@ -1207,12 +1209,7 @@ impl Component for App {
             }
             AppMsg::DumpPipeline => {
                 debug!("Dump pipeline");
-                self.player_component
-                    .sender()
-                    .send(PlayerComponentInput::DumpPipeline(
-                        chrono::Local::now().format("mxl_plyr_%Y-%m-%d_%H_%M_%S").to_string(),
-                    ))
-                    .unwrap_or_default();
+                self.dump_pipline();
                 widgets.toast_overlay.add_toast(toast(fl!("dumped-pipeline"), 1));
             }
             AppMsg::FileChooserRequest => self.file_open_dialog.emit(OpenDialogMsg::Open),
@@ -1289,15 +1286,21 @@ impl Component for App {
                     msg,
                 ));
             }
-            AppMsg::ProblemReportDialogOpen => self.problem_report_dialog.emit(ProblemReportDialogInput::Present(
-                root.upcast_ref::<gtk::Widget>().clone(),
-            )),
+            AppMsg::ProblemReportDialogOpen => {
+                self.dump_pipline();
+                self.problem_report_dialog.emit(ProblemReportDialogInput::Present(
+                    root.upcast_ref::<gtk::Widget>().clone(),
+                ));
+            }
             AppMsg::ProblemReportDialogClosed => {
                 sender.input(AppMsg::DoAutoStart);
             }
-            AppMsg::CreateReportDialogOpen => self.create_report_dialog.emit(CreateReportDialogInput::Present(
-                root.upcast_ref::<gtk::Widget>().clone(),
-            )),
+            AppMsg::CreateReportDialogOpen => {
+                self.dump_pipline();
+                self.create_report_dialog.emit(CreateReportDialogInput::Present(
+                    root.upcast_ref::<gtk::Widget>().clone(),
+                ));
+            }
             AppMsg::DoAutoStart => {
                 if !self.auto_start_done {
                     self.auto_start_done = true;
@@ -1536,6 +1539,15 @@ impl App {
 
             self.audio_track_items = new_track_items;
         }
+    }
+
+    fn dump_pipline(&self) {
+        self.player_component
+            .sender()
+            .send(PlayerComponentInput::DumpPipeline(
+                chrono::Local::now().format("mxl_player_%Y-%m-%d_%H_%M_%S").to_string(),
+            ))
+            .unwrap_or_default();
     }
 }
 
