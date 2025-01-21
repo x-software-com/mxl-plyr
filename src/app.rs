@@ -1209,7 +1209,7 @@ impl Component for App {
             }
             AppMsg::DumpPipeline => {
                 debug!("Dump pipeline");
-                self.dump_pipline();
+                self.dump_pipeline();
                 widgets.toast_overlay.add_toast(toast(fl!("dumped-pipeline"), 1));
             }
             AppMsg::FileChooserRequest => self.file_open_dialog.emit(OpenDialogMsg::Open),
@@ -1287,7 +1287,7 @@ impl Component for App {
                 ));
             }
             AppMsg::ProblemReportDialogOpen => {
-                self.dump_pipline();
+                self.dump_pipeline();
                 self.problem_report_dialog.emit(ProblemReportDialogInput::Present(
                     root.upcast_ref::<gtk::Widget>().clone(),
                 ));
@@ -1296,7 +1296,7 @@ impl Component for App {
                 sender.input(AppMsg::DoAutoStart);
             }
             AppMsg::CreateReportDialogOpen => {
-                self.dump_pipline();
+                self.dump_pipeline();
                 self.create_report_dialog.emit(CreateReportDialogInput::Present(
                     root.upcast_ref::<gtk::Widget>().clone(),
                 ));
@@ -1541,7 +1541,7 @@ impl App {
         }
     }
 
-    fn dump_pipline(&self) {
+    fn dump_pipeline(&self) {
         self.player_component
             .sender()
             .send(PlayerComponentInput::DumpPipeline(
