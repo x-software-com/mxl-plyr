@@ -2243,7 +2243,6 @@ dependencies = [
  "mxl-investigator",
  "mxl-player-components",
  "mxl-relm4-components",
- "regex",
  "relm4-icons",
  "rust-embed",
  "serde",
