@@ -7,8 +7,6 @@
         "ghcr.io/devcontainers/features/common-utils:2": {
             "installZsh": "true",
             "username": "vscode",
-            "userUid": "1000",
-            "userGid": "1000",
             "upgradePackages": "true"
         },
         "ghcr.io/devcontainers/features/rust:1": "latest",
@@ -49,11 +47,16 @@
             "type": "volume"
         }
     ],
+    "containerEnv": {
+        "HOME": "/home/vscode"
+    },
     "dev.containers.copyGitConfig": true,
     "initializeCommand": "mkdir -p ${localEnv:HOME}/Videos",
     "postCreateCommand": "cargo install just && just setup",
     "waitFor": "postCreateCommand",
     "remoteUser": "vscode",
+    "containerUser": "vscode",
+    "updateRemoteUserUID": true,
     "customizations": {
         "vscode": {
             "extensions": [
