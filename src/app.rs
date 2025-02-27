@@ -38,7 +38,7 @@ use mxl_relm4_components::{
     relm4::{
         self,
         actions::*,
-        adw::{prelude::*, Toast},
+        adw::{Toast, prelude::*},
         component::Connector,
         gtk::{gio, glib},
         prelude::*,

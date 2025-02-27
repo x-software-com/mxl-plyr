@@ -39,7 +39,9 @@ fn run() -> Result<()> {
     }
 
     if mxl_investigator::proc_dir::failed_dir_any_panic()? {
-        warn!("Previous runs of the application were not properly terminated. Please start the application with --help to find out how to export a bug report.");
+        warn!(
+            "Previous runs of the application were not properly terminated. Please start the application with --help to find out how to export a bug report."
+        );
     }
 
     glib_helpers::init_logging();

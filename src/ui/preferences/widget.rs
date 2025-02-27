@@ -7,10 +7,10 @@ use mxl_player_components::ui::codec_ranking::{
     model::{CodecRankingComponentInit, CodecRankingComponentModel},
 };
 use mxl_relm4_components::relm4::{
-    self,
+    self, ComponentController, ComponentSender,
     adw::{self, prelude::*},
     component::{Component, ComponentParts},
-    gtk, ComponentController, ComponentSender,
+    gtk,
 };
 
 const COLOR_SCHEME_DEFAULT_MODE: u32 = 0;

@@ -16,8 +16,8 @@ categories = ["multimedia", "multimedia::video", "multimedia::audio"]
 repository = "https://github.com/x-software-com/mxl-plyr"
 homepage = "https://github.com/x-software-com/mxl-plyr"
 readme = "README.md"
-edition = "2021"
-rust-version = "1.80"
+edition = "2024"
+rust-version = "1.85"
 
 [dependencies]
 log = "0.4"
