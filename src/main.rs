@@ -60,16 +60,6 @@ fn run() -> Result<()> {
 
     debug!("Files to open: {:?}", args.uris);
 
-    const RELM_DEFAULT_THREADS: usize = 4;
-    let thread_count =
-        std::thread::available_parallelism().map_or(RELM_DEFAULT_THREADS, |v| v.get().min(RELM_DEFAULT_THREADS));
-    debug!("Set the number of RELM4 threads to {thread_count}");
-    relm4::RELM_THREADS.set(thread_count).map_or_else(
-        |count| {
-            error!("Cannot set the number of REALM_THREADS to '{}'", count);
-        },
-        |_| (),
-    );
     relm4_icons::initialize_icons();
 
     let display = gtk::gdk::Display::default().expect("Cannot get the GDK default display");
