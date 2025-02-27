@@ -30,6 +30,9 @@ setup-cargo-hack:
 setup-cargo-audit:
     cargo install cargo-audit
 
+setup-cargo-machete:
+    cargo install cargo-machete
+
 setup-mxl-env: install-vcpkg
     ./scripts/mxl-env.py --print-env --no-export-print-env > .mxl-env
     @echo "Created '.mxl-env' file"
@@ -47,10 +50,10 @@ setup-cocogitto:
     cargo install cocogitto
     cog install-hook --overwrite commit-msg
 
-setup: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-cocogitto self-update remove-mxl-env
+setup: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-machete setup-cargo-tools setup-cocogitto self-update remove-mxl-env
     @echo "Done"
 
-setup-vcpkg: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-cocogitto self-update setup-mxl-env
+setup-vcpkg: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-machete setup-cargo-tools setup-cocogitto self-update setup-mxl-env
     @echo "Done"
 
 setup-ci: setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-mxl-env
@@ -103,6 +106,9 @@ clippy:
 
 audit: setup-cargo-audit
     cargo audit
+
+machete: setup-cargo-machete
+    cargo machete --with-metadata
 
 cargo-fmt:
     cargo fmt --all
