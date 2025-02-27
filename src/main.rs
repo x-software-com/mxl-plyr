@@ -12,7 +12,7 @@ use anyhow::Result;
 use clap::Parser;
 use log::*;
 use mxl_player_components::glib_helpers;
-use mxl_relm4_components::relm4::{self, gtk::gio, gtk::glib, prelude::*};
+use mxl_relm4_components::relm4::{gtk::gio, gtk::glib, prelude::*};
 use std::env;
 
 mod about;
