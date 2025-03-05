@@ -28,16 +28,16 @@ chrono = "0.4"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 gst = { package = "gstreamer", version = "0.23", features = ["v1_24"] }
-mxl-base = "0.2.5"
-mxl-relm4-components = { version = "0.2.3", features = [
+mxl-base = "0.2"
+mxl-relm4-components = { version = "0.2", features = [
     "third_party_licenses_dialog",
 ] }
 relm4-icons = { version = "0.9", features = ["all"] }
-mxl-investigator = { version = "0.1.21", features = [
+mxl-investigator = { version = "0.1", features = [
     "create_report_dialog",
     "problem_report_dialog",
 ] }
-mxl-player-components = "0.1.1"
+mxl-player-components = "0.1"
 
 # Internationalization:
 i18n-embed-fl = "0.9"
