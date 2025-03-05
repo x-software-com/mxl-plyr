@@ -2,6 +2,46 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v1.2.0](https://github.com/x-software-com/mxl-plyr/compare/01eb43a787845058b6c82cda2b41c386b030c5a2..v1.2.0) - 2025-03-05
+#### Build system
+- cargo update - ([e442fa9](https://github.com/x-software-com/mxl-plyr/commit/e442fa95a0df2e36f6eac149146a9728841ba4c5)) - marcbull
+- remove not needed build dependency - ([fb422a2](https://github.com/x-software-com/mxl-plyr/commit/fb422a2ab741c6ac2f66806f96cf819ac4307385)) - marcbull
+#### Features
+- upgrade vcpkg to version 2025.01.13 - ([cc64075](https://github.com/x-software-com/mxl-plyr/commit/cc64075e148a66d7cac4bae7d1286618bc25fd2b)) - marcbull
+#### Miscellaneous Chores
+- **(deps)** bump crate-ci/typos from 1.29.9 to 1.30.0 - ([f962fe6](https://github.com/x-software-com/mxl-plyr/commit/f962fe6281683606e03339f9fb38405ce932a0ae)) - dependabot[bot]
+- **(deps)** bump log from 0.4.25 to 0.4.26 - ([c14b216](https://github.com/x-software-com/mxl-plyr/commit/c14b2161730dfd789021d4a9746808f4743ab704)) - dependabot[bot]
+- **(deps)** bump serde_json from 1.0.138 to 1.0.139 - ([904b29e](https://github.com/x-software-com/mxl-plyr/commit/904b29ed16da2c593fb0e90c28fb4b2213bbc04e)) - dependabot[bot]
+- **(deps)** bump serde from 1.0.217 to 1.0.218 - ([c627361](https://github.com/x-software-com/mxl-plyr/commit/c6273612dc453073c43b2be65da68472ac02941b)) - dependabot[bot]
+- **(deps)** bump clap from 4.5.29 to 4.5.30 - ([f576a07](https://github.com/x-software-com/mxl-plyr/commit/f576a0722f724a667123c9121f8cdc08084f431d)) - dependabot[bot]
+- **(deps)** bump anyhow from 1.0.95 to 1.0.96 - ([9d8d58c](https://github.com/x-software-com/mxl-plyr/commit/9d8d58c41d3679d681da331922d1566b90e0be21)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.29.7 to 1.29.9 - ([3898449](https://github.com/x-software-com/mxl-plyr/commit/38984495023e613a97426d7159f0068e259b5428)) - dependabot[bot]
+- **(deps)** bump ncipollo/release-action from 1.15.0 to 1.16.0 - ([6d096e4](https://github.com/x-software-com/mxl-plyr/commit/6d096e4aa970dea94135551e0ef41da6ef5e2251)) - dependabot[bot]
+- **(deps)** bump clap from 4.5.28 to 4.5.29 - ([42b90a1](https://github.com/x-software-com/mxl-plyr/commit/42b90a159880b7a4c898257b7de6ca940ee04f56)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.29.5 to 1.29.7 - ([8e4d885](https://github.com/x-software-com/mxl-plyr/commit/8e4d8851e5d80bbde8ac6972ea9f7750b83b1233)) - dependabot[bot]
+- **(deps)** bump clap from 4.5.23 to 4.5.27 - ([029f98d](https://github.com/x-software-com/mxl-plyr/commit/029f98d2fa7aaab4c5bf78d1b7e01968e05633e9)) - dependabot[bot]
+- **(deps)** bump log from 0.4.22 to 0.4.25 - ([c58f945](https://github.com/x-software-com/mxl-plyr/commit/c58f945de05cb1bde64befd7531c8e2d9af7f270)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.29.4 to 1.29.5 - ([85c1324](https://github.com/x-software-com/mxl-plyr/commit/85c13249c109c7068fa55d04abb336e46d823942)) - dependabot[bot]
+- **(deps)** bump serde_json from 1.0.133 to 1.0.138 - ([fa1fb88](https://github.com/x-software-com/mxl-plyr/commit/fa1fb88916772d695ca9f510f03728e8f4157884)) - dependabot[bot]
+- **(deps)** bump i18n-embed-fl from 0.9.2 to 0.9.3 - ([1d8ee0d](https://github.com/x-software-com/mxl-plyr/commit/1d8ee0dbf6ced35370d4ea1a92284d5c956b0a0e)) - dependabot[bot]
+- **(deps)** bump i18n-embed from 0.15.2 to 0.15.3 - ([1bf2998](https://github.com/x-software-com/mxl-plyr/commit/1bf2998e494169f8a9a5df69f666fb3f0079d5ad)) - dependabot[bot]
+- **(deps)** bump serde from 1.0.216 to 1.0.217 - ([f38553c](https://github.com/x-software-com/mxl-plyr/commit/f38553cdda24561d07f7d60ade19eaf66ddcae58)) - dependabot[bot]
+- **(deps)** bump anyhow from 1.0.94 to 1.0.95 - ([238c29c](https://github.com/x-software-com/mxl-plyr/commit/238c29cb348ff577f40515eab6ed684460615cc1)) - dependabot[bot]
+- **(deps)** bump ncipollo/release-action from 1.14.0 to 1.15.0 - ([c04ab40](https://github.com/x-software-com/mxl-plyr/commit/c04ab4099d5116e30238e8b7c98ae1c6dbf25520)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.28.3 to 1.29.4 - ([0f90543](https://github.com/x-software-com/mxl-plyr/commit/0f9054306ab97a45c2f43e5513f8285b382835cb)) - dependabot[bot]
+- use minor versioning for mxl dependencies - ([415a24c](https://github.com/x-software-com/mxl-plyr/commit/415a24c56bf735c7372256c0a0ae92c5b7a50339)) - marcbull
+- cargo update - ([10c47b7](https://github.com/x-software-com/mxl-plyr/commit/10c47b7f2c96796c17f010dfe3f7a9908705631a)) - marcbull
+- remove no longer needed use declaration - ([30c8c03](https://github.com/x-software-com/mxl-plyr/commit/30c8c032b40ae9f84fe63e244cae25ec9b9c7e6f)) - marcbull
+- remove increase of relm4 thread count - ([e7de98b](https://github.com/x-software-com/mxl-plyr/commit/e7de98b1ed68755479e8a61679a1a9704d59f8d0)) - marcbull
+- add cargo-machete to justfile - ([81798d1](https://github.com/x-software-com/mxl-plyr/commit/81798d13d0ef9b0806d7fb7dab9c93a85819388c)) - marcbull
+- cargo update - ([80eb18c](https://github.com/x-software-com/mxl-plyr/commit/80eb18c1e47646150ae9703d3701d94383334ebe)) - marcbull
+- upgrade rust edition to 2024 - ([c9bf222](https://github.com/x-software-com/mxl-plyr/commit/c9bf22261059df6ba2bc3074044b313ec54e1875)) - marcbull
+- improve devcontainer for use with podman - ([965ef3c](https://github.com/x-software-com/mxl-plyr/commit/965ef3c6a9b0a008b3daf40041cf8c36078bfa20)) - marcbull
+- fix typo - ([a526bcd](https://github.com/x-software-com/mxl-plyr/commit/a526bcdb8799aa9fa0dbf41328ae02fb0a7e0e15)) - acpiccolo
+- dump pipeline on report generation - ([01eb43a](https://github.com/x-software-com/mxl-plyr/commit/01eb43a787845058b6c82cda2b41c386b030c5a2)) - acpiccolo
+
+- - -
+
 ## [v1.1.1](https://github.com/x-software-com/mxl-plyr/compare/d8fc11774f833d56d36611275c56670461d997a1..v1.1.1) - 2024-12-20
 #### Bug Fixes
 - update mxl-investigator to 0.1.21 - ([d514674](https://github.com/x-software-com/mxl-plyr/commit/d51467473ee59dafb54ba9baa26682bc5a953d38)) - marcbull
