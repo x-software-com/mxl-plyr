@@ -18,3 +18,7 @@ __pycache__
 # Ignore vscode/vscodium settings, exept for extensions.json.
 .vscode/*
 !.vscode/extensions.json
+
+# Devenv
+.devenv*
+devenv.local.nix

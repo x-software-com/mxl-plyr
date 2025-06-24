@@ -20,6 +20,18 @@ alias c := config
 alias b := build
 alias i := install
 
+# default recipe to display help information
+default:
+    @just --list
+
+devenv:
+    #!/usr/bin/env bash
+    set -eo pipefail
+    devenv shell
+
+devenv-update:
+    devenv update
+
 #
 # Setup the environment:
 #
@@ -160,7 +172,7 @@ docker-build:
 
 docker-run: docker-build
     #!/usr/bin/env bash
-    set -e
+    set -eo pipefail
     # Get parent directory as the mountpoint for the volume.
     MOUNT_DIR="$(dirname "$(pwd)")"
     docker run --privileged=true -it --rm \
@@ -186,25 +198,17 @@ docker-run-clean:
 
 docker-build-appimage: setup-ci
     #!/usr/bin/env bash
-    set -e
+    set -eo pipefail
     mkdir -p {{result_dir}}
     if [ "{{build-type}}" != "release" ]; then
         eval "$(./scripts/mxl-env.py --vcpkg-debug --print-env)"
     else
         eval "$(./scripts/mxl-env.py --print-env)"
     fi
-    (
-        # set -o pipefail exits the script if a command piped with tee exits with an error
-        set -o pipefail
-        just --justfile {{justfile()}} profile={{build-type}} linuxdeployimg 2>&1 | tee {{result_dir}}/build-linuxdeployimg.log
-        just --justfile {{justfile()}} appimage-from-linuxdeployimg 2>&1 | tee {{result_dir}}/build-appimage.log
-    )
+    just --justfile {{justfile()}} profile={{build-type}} linuxdeployimg 2>&1 | tee {{result_dir}}/build-linuxdeployimg.log
+    just --justfile {{justfile()}} appimage-from-linuxdeployimg 2>&1 | tee {{result_dir}}/build-appimage.log
 
 docker-build-makeself:
     #!/usr/bin/env bash
-    set -e
-    (
-        # set -o pipefail exits the script if a command piped with tee exits with an error
-        set -o pipefail
-        just --justfile {{justfile()}} makeself-from-appimage 2>&1 | tee {{result_dir}}/build-makeself.log
-    )
+    set -eo pipefail
+    just --justfile {{justfile()}} makeself-from-appimage 2>&1 | tee {{result_dir}}/build-makeself.log
