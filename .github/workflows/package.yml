@@ -222,7 +222,7 @@ jobs:
           echo "</p></details>" >> RELEASE_NOTES.md
           echo "###### RELEASE_NOTES.md ######"
           cat RELEASE_NOTES.md
-      - uses: ncipollo/release-action@v1.16.0
+      - uses: ncipollo/release-action@v1.18.0
         with:
           draft: false
           prerelease: false
