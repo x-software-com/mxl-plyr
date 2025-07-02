@@ -59,6 +59,21 @@ vcpkg_ignores:
   - directory: libx11
     comment: Provided by the system
     os: linux
+  - directory: vulkan
+    comment: Provided by the system
+    os: linux
+  - directory: vulkan-loader
+    comment: Provided by the system
+    os: linux
+  - directory: libxkbcommon
+    comment: Provided by the system
+    os: linux
+  - directory: opengl
+    comment: Provided by the system
+    os: linux
+  - directory: opengl-registry
+    comment: Provided by the system
+    os: linux
 lib_ignores:
   - lib: libbz2d.so.1.0
     comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed

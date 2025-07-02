@@ -12,7 +12,7 @@ RUN dnf -y install epel-release \
   && rm -rf /var/cache/dnf
 
 # Required base packages
-RUN dnf -y install xz bzip2 less python3.11-pip \
+RUN dnf -y install xz bzip2 less python3.12-pip \
   && dnf clean all \
   && rm -rf /var/cache/dnf
 
@@ -25,12 +25,12 @@ RUN pip3 install meson
 
 ARG DEVTOOLSET=gcc-toolset-12
 # Required for building vcpkg packages
-RUN dnf -y install ${DEVTOOLSET} make cmake ninja-build git elfutils autoconf automake libtool zlib-devel curl wget zip unzip tar bison flex \
+RUN dnf -y install ${DEVTOOLSET} ${DEVTOOLSET}-libatomic-devel libtool make cmake ninja-build git elfutils autoconf automake zlib-devel curl wget zip unzip tar bison flex \
   && dnf clean all \
   && rm -rf /var/cache/dnf \
   && echo -e "source /opt/rh/${DEVTOOLSET}/enable" >> /etc/profile.d/compiler.sh
 
-RUN dnf -y install diffutils pkgconfig nasm yasm clang rsync desktop-file-utils \
+RUN dnf -y install diffutils pkgconfig nasm yasm rsync desktop-file-utils \
   && dnf clean all \
   && rm -rf /var/cache/dnf
 
