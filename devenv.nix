@@ -82,6 +82,9 @@ in
         ninja
         pkg-config
         graphene.dev
+        fribidi
+        fontconfig
+        freetype
         zip
         zstd.dev
         vulkan-loader.dev
@@ -191,6 +194,9 @@ in
           xorg.libXrender
           expat
           libgbm
+          fribidi
+          fontconfig
+          freetype
           libGL
           libdrm
           linuxPackages.nvidia_x11

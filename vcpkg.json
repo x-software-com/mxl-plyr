@@ -17,17 +17,14 @@
           "platform": "!osx"
         },
         {
-          "name": "x11-bad",
-          "platform": "linux"
-        },
-        {
-          "name": "x11-base",
+          "name": "x11",
           "platform": "linux"
         },
         "aom",
         "dtls",
         "fdkaac",
         "flac",
+        "gl",
         "gl-graphene",
         "gpl",
         "libav",
@@ -38,7 +35,9 @@
         "pango",
         "taglib",
         "vorbis",
-        "vpx"
+        "vpx",
+        "vulkan",
+        "wayland"
       ]
     },
     {
