@@ -24,14 +24,6 @@ alias i := install
 default:
     @just --list
 
-devenv:
-    #!/usr/bin/env bash
-    set -eo pipefail
-    devenv shell
-
-devenv-update:
-    devenv update
-
 #
 # Setup the environment:
 #

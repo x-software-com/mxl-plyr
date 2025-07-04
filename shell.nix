@@ -1,36 +1,28 @@
 {
-  pkgs,
-  lib,
-  config,
-  inputs,
-  ...
+  pkgs ? (
+    import <nixpkgs> {
+      config.allowUnfree = true;
+    }
+  ),
+  useVcpkg ? true,
+  userShell ? "fish",
 }:
 
 let
-  pkgConfigPath = "$PKG_CONFIG_PATH:$PKG_CONFIG_PATH_x86_64_unknown_linux_gnu:${pkgs.xorg.libX11.dev}/lib/pkgconfig:${pkgs.xorg.xorgproto.out}/share/pkgconfig:${pkgs.xorg.libXext.dev}/lib/pkgconfig:${pkgs.pulseaudio.dev}/lib/pkgconfig:${pkgs.xorg.libXrender.dev}/lib/pkgconfig:${pkgs.kdePackages.wayland.dev}/lib/pkgconfig:${pkgs.kdePackages.wayland-protocols.out}/share/pkgconfig:${pkgs.libdrm.dev}/lib/pkgconfig:${pkgs.libxkbcommon.dev}/lib/pkgconfig:${pkgs.xorg.libXrandr.dev}/lib/pkgconfig:${pkgs.xorg.libXi.dev}/lib/pkgconfig:${pkgs.xorg.libXcursor.dev}/lib/pkgconfig:${pkgs.xorg.libXdamage.dev}/lib/pkgconfig:${pkgs.xorg.libXfixes.dev}/lib/pkgconfig:${pkgs.xorg.libXinerama.dev}/lib/pkgconfig:${pkgs.libva.dev}/lib/pkgconfig:${pkgs.xorg.libxcb.dev}/lib/pkgconfig";
+  pkgConfigPath = "$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/usr/share/pkgconfig";
   pkgConfigWrapper = pkgs.writeShellScriptBin "pkg-config" ''
-    PKG_CONFIG_PATH_x86_64_unknown_linux_gnu=${pkgConfigPath} ${pkgs.pkg-config}/bin/pkg-config $@
+    PKG_CONFIG_PATH=${pkgConfigPath} ${pkgs.pkg-config}/bin/pkg-config $@
   '';
 in
-{
-  options = {
-    use-vcpkg = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "When enabled system GTK/GStreamer/FFmpeg will not be available";
-    };
-  };
-
-  config = {
-    # https://devenv.sh/basics/
-    env.GREET = "mxl-player devenv";
-
-    # https://devenv.sh/packages/
-    packages =
+(pkgs.buildFHSEnv {
+  name = "mxl-plyr";
+  targetPkgs =
+    pkgs:
+    (
       with pkgs;
       [
         pkgConfigWrapper
-        fish
+        pkgs.${userShell}
         vim
         wget
         curl
@@ -62,7 +54,6 @@ in
         autoAddDriverRunpath
         python3Full
         pipx
-        hugo
         just
         zlib
         expat
@@ -126,55 +117,57 @@ in
         xorg.libXinerama.dev
         xorg.xorgproto
       ]
-      ++ lib.optionals (config.use-vcpkg == false) [
+      ++ pkgs.lib.optionals (useVcpkg == false) [
         gtk4.dev
-        gdk-pixbuf
-        librsvg
+        glib.dev
+        pango.dev
+        harfbuzz.dev
+        cairo.dev
+        gdk-pixbuf.dev
+        librsvg.dev
         libadwaita.dev
+        gst_all_1.gstreamer
         gst_all_1.gstreamer.dev
+        gst_all_1.gst-vaapi
         gst_all_1.gst-vaapi.dev
+        gst_all_1.gst-libav
         gst_all_1.gst-libav.dev
+        gst_all_1.gst-plugins-base
         gst_all_1.gst-plugins-base.dev
+        gst_all_1.gst-plugins-good
         gst_all_1.gst-plugins-good.dev
+        gst_all_1.gst-plugins-bad
         gst_all_1.gst-plugins-bad.dev
+        gst_all_1.gst-plugins-ugly
         gst_all_1.gst-plugins-ugly.dev
+        gst_all_1.gst-plugins-rs
         gst_all_1.gst-plugins-rs.dev
+        gst_all_1.gst-editing-services
         gst_all_1.gst-editing-services.dev
         gst_all_1.gst-devtools
         ffmpeg_6-full.dev
         nvidia-vaapi-driver
         libepoxy
         glide-media-player
-      ];
+      ]
+    );
 
-    # https://devenv.sh/languages/
-    # languages.rust.enable = true;
-    # languages.c.enable = true;
-    # languages.cplusplus.enable = true;
-    # languages.shell.enable = true;
-
-    # https://devenv.sh/processes/
-    # processes.cargo-watch.exec = "cargo-watch";
-
-    # https://devenv.sh/services/
-    # services.postgres.enable = true;
-
-    # https://devenv.sh/scripts/
-    scripts.hello.exec = ''
-      echo hello from $GREET
-    '';
-
-    enterShell = with pkgs; ''
+  runScript =
+    with pkgs;
+    pkgs.writeScript "init.sh" ''
       # By default the GDK backend is set to Wayland on NixOS.
       # This fixes an issue with NVIDIA/GTK4/GStreamer (gtk4paintablesink) under Wayland, where the playback is very slow and choppy.
       # Check in the future, if this issue still exists, so we can remove this workaround.
       export GDK_BACKEND=x11
 
+      # Set the Cargo home directory to avoid conflicts with other projects and different compiler and library versions.
+      export CARGO_HOME="${builtins.toString ./.}/.cargo"
+
       export CUDA_PATH=${pkgs.cudatoolkit}
-      export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
-      export EXTRA_CCFLAGS="-I/usr/include"
+
       export PKG_CONFIG_PATH="${pkgConfigPath}"
       export PKG_CONFIG_EXECUTABLE="$(which pkg-config)"
+
       export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${
         pkgs.lib.makeLibraryPath [
           libgcc.lib
@@ -205,24 +198,8 @@ in
           libjack2
         ]
       }:/usr/lib:usr/lib64"
-      exec fish
+
+      export SHELL="/usr/bin/${userShell}"
+      exec ${userShell}
     '';
-
-    # https://devenv.sh/tasks/
-    # tasks = {
-    #   "myproj:setup".exec = "mytool build";
-    #   "devenv:enterShell".after = [ "myproj:setup" ];
-    # };
-
-    # https://devenv.sh/tests/
-    enterTest = ''
-      echo "Running tests"
-      git --version | grep --color=auto "${pkgs.git.version}"
-    '';
-
-    # https://devenv.sh/pre-commit-hooks/
-    # pre-commit.hooks.shellcheck.enable = true;
-
-    # See full reference at https://devenv.sh/reference/options/
-  };
-}
+}).env
