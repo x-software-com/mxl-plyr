@@ -19,5 +19,5 @@ __pycache__
 .vscode/*
 !.vscode/extensions.json
 
-# Ignore the project specific cargo directory
+# Ignore the project specific cargo directory for NixOS
 .cargo
