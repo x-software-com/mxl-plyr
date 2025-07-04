@@ -160,6 +160,9 @@ in
       # Check in the future, if this issue still exists, so we can remove this workaround.
       export GDK_BACKEND=x11
 
+      # Set the Cargo home directory to avoid conflicts with other projects and different compiler and library versions.
+      export CARGO_HOME="${builtins.toString ./.}/.cargo"
+
       export CUDA_PATH=${pkgs.cudatoolkit}
 
       export PKG_CONFIG_PATH="${pkgConfigPath}"
