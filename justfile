@@ -1,7 +1,7 @@
 #!/usr/bin/env -S just --justfile
 
 # To change profile or release call just with:
-build-type := "release"
+buildtype := "release"
 profile := "development"
 package := "mxl_plyr"
 binary := "mxl_plyr"
@@ -79,11 +79,11 @@ config:
     #!/usr/bin/env sh
     set -e
     if [ -d {{builddir}} ]; then
-        meson setup --reconfigure --buildtype {{build-type}} -Dpkgconfig.relocatable=true -Ddefault_library=static -Dprofile={{profile}} \
+        meson setup --reconfigure --buildtype {{buildtype}} -Dpkgconfig.relocatable=true -Ddefault_library=static -Dprofile={{profile}} \
             -Dprefix={{install_prefix}} {{builddir}}
         echo "Successfully reconfigured the project!"
     else
-        meson setup --buildtype {{build-type}} -Dpkgconfig.relocatable=true -Ddefault_library=static -Dprofile={{profile}} \
+        meson setup --buildtype {{buildtype}} -Dpkgconfig.relocatable=true -Ddefault_library=static -Dprofile={{profile}} \
             -Dprefix={{install_prefix}} {{builddir}}
         echo "Successfully configured the project!"
     fi
@@ -98,10 +98,10 @@ install: build
     @echo "Successfully installed the project!"
 
 linuxdeployimg: install
-    ./scripts/build-linuxdeployimg.sh "{{package}}" "{{build-type}}" "{{binary}}" "{{builddir}}" "{{pkgdir}}" "{{result_dir}}"
+    ./scripts/build-linuxdeployimg.sh "{{package}}" "{{buildtype}}" "{{binary}}" "{{builddir}}" "{{pkgdir}}" "{{result_dir}}"
 
 appimage-from-linuxdeployimg:
-    ./scripts/build-appimage-from-linuxdeployimg.sh "{{package}}" "{{build-type}}" "{{result_dir}}"
+    ./scripts/build-appimage-from-linuxdeployimg.sh "{{package}}" "{{buildtype}}" "{{result_dir}}"
 
 makeself-from-appimage:
     ./scripts/build-makeself-from-appimage.sh "{{package}}" "{{result_dir}}"
@@ -200,15 +200,15 @@ docker-build-appimage: setup-ci
     #!/usr/bin/env bash
     set -eo pipefail
     mkdir -p {{result_dir}}
-    if [ "{{build-type}}" != "release" ]; then
+    if [ "{{buildtype}}" != "release" ]; then
         eval "$(./scripts/mxl-env.py --vcpkg-debug --print-env)"
     else
         eval "$(./scripts/mxl-env.py --print-env)"
     fi
-    just --justfile {{justfile()}} profile={{build-type}} linuxdeployimg 2>&1 | tee {{result_dir}}/build-linuxdeployimg.log
-    just --justfile {{justfile()}} appimage-from-linuxdeployimg 2>&1 | tee {{result_dir}}/build-appimage.log
+    just --justfile {{justfile()}} buildtype={{buildtype}} profile={{profile}} linuxdeployimg 2>&1 | tee {{result_dir}}/build-linuxdeployimg.log
+    just --justfile {{justfile()}} buildtype={{buildtype}} appimage-from-linuxdeployimg 2>&1 | tee {{result_dir}}/build-appimage.log
 
 docker-build-makeself:
     #!/usr/bin/env bash
     set -eo pipefail
-    just --justfile {{justfile()}} makeself-from-appimage 2>&1 | tee {{result_dir}}/build-makeself.log
+    just --justfile {{justfile()}} buildtype={{buildtype}} makeself-from-appimage 2>&1 | tee {{result_dir}}/build-makeself.log
