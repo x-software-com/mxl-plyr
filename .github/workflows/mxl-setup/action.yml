@@ -24,7 +24,7 @@ outputs:
     value: ${{ steps.get_version.outputs.version }}
     description: Version of the MXL Plyr
   just-options:
-    value: profile=${{ inputs.build-profile }} build-type=${{ inputs.build-type }}
+    value: profile=${{ inputs.build-profile }} buildtype=${{ inputs.build-type }}
     description: Options use for the configuration with just
 runs:
   using: "composite"
@@ -68,7 +68,7 @@ runs:
       shell: bash {0}
       run: |
         source /etc/profile
-        just profile=${{ inputs.build-profile }} build-type=${{ inputs.build-type }} mxl-env
+        just profile=${{ inputs.build-profile }} buildtype=${{ inputs.build-type }} mxl-env
     - name: Setup environment
       uses: falti/dotenv-action@v1
       with:
