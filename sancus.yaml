@@ -83,6 +83,8 @@ lib_ignores:
     comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
   - lib: libtiffd.so.6
     comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
+  - lib: libfmtd.so.11
+    comment: Lib is currently only installed in the ignored debug dir of vcpkg_installed
 overrides:
   - package: libyaml
     license_id: MIT
