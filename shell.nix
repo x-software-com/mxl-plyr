@@ -40,6 +40,7 @@ in
         stdenv
         gcc
         libgcc.lib
+        iconv.dev
         nasm
         yasm
         flex
