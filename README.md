@@ -23,6 +23,7 @@ For short description of available commands, once you've installed MXL Plyr, you
 - [MXL Plyr: Overview](#mxl-plyr-overview)
 - [Table of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
+  - [Quick Start: NixOS](#quick-start-nixos)
   - [Quick Start: Linux](#quick-start-linux)
   - [Installing Linux Developer Tools](#installing-linux-developer-tools)
 - [Contributing](#contributing)
@@ -31,9 +32,35 @@ For short description of available commands, once you've installed MXL Plyr, you
 
 # Getting Started
 
-First, follow the quick start guide for [Linux](#quick-start-unix), depending on what you're using.
+First, follow the quick start guide for [Linux](#installing-linux-developer-tools), depending on what you're using.
 
 If you need a feature or encounter a problem, you can [open an issue on the GitHub repo][contributing:submit-issue] where the MXL team and community can see it.
+
+## Quick Start: NixOS
+
+On NixOS just enter a `nix-shell` to setup the development environment.
+
+### Enter a `nix-shell` with GStreamer and Gtk4 from the system
+
+```sh
+nix-shell --arg useVcpkg false
+```
+
+After you have entered the `nix-shell`, you can continue with the [setup](#setup-using-the-system-libraries).
+
+### Enter a `nix-shell` with GStreamer and Gtk4 from vcpkg
+
+```sh
+nix-shell
+```
+
+After you have entered the `nix-shell`, you can continue with the [setup](#setup-using-the-vcpkg-libraries).
+
+### Enter a `nix-shell` with an other shell than fish
+
+```sh
+nix-shell --argstr userShell bash
+```
 
 ## Quick Start: Linux
 
