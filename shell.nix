@@ -22,8 +22,10 @@ in
       with pkgs;
       [
         pkgConfigWrapper
+        vscode # Explicitly install vscode to run the non FSH version to inherit all environment variables
+        appimage-run
         pkgs.${userShell}
-        vim
+
         wget
         curl
         htop
