@@ -40,7 +40,7 @@ mxl-investigator = { version = "0.1", features = [
 mxl-player-components = "0.1"
 
 # Internationalization:
-i18n-embed-fl = "0.9"
+i18n-embed-fl = "0.10"
 rust-embed = { version = "8", features = ["debug-embed"] }
 i18n-embed = { version = "0.15", features = [
     "fluent-system",
