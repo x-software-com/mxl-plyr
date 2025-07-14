@@ -41,6 +41,7 @@ enable = Enable
 dumped-pipeline = Dumped pipeline
 license-active-failed-title = Failed licensing
 get-failed-procs-failed-title = Failed to get failed executions
+report-creation-succeeded = The report was successfully saved to '{$file_name}'
 
 # Preferences ui
 preferences = Preferences

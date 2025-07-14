@@ -34,13 +34,21 @@ fn run() -> Result<()> {
         .level_for("html5ever", log::LevelFilter::Warn) // dependency of html2pango
         .build(mxl_investigator::proc_dir::proc_dir())?;
 
-    if let Some(archive_file_path) = &args.export_bug_report {
-        return mxl_investigator::proc_dir::failed_dir_archive_and_remove(archive_file_path);
+    if let Some(archive_file_path) = &args.export_report {
+        mxl_investigator::proc_dir::archive_and_remove_panics(archive_file_path)?;
+        println!(
+            "{}",
+            fl!(
+                "report-creation-succeeded",
+                file_name = archive_file_path.to_string_lossy()
+            )
+        );
+        return Ok(());
     }
 
-    if mxl_investigator::proc_dir::failed_dir_any_panic()? {
+    if mxl_investigator::proc_dir::any_panic()? {
         warn!(
-            "Previous runs of the application were not properly terminated. Please start the application with --help to find out how to export a bug report."
+            "Previous runs of the application were not properly terminated. Please start the application with --help to find out how to export a report."
         );
     }
 
@@ -135,10 +143,7 @@ fn main() -> std::process::ExitCode {
         mxl_investigator::proc_dir::write_report_error(&error);
         return std::process::ExitCode::FAILURE;
     }
-    if let Err(error) = mxl_investigator::proc_dir::cleanup() {
-        error!("{error:?}");
-        mxl_investigator::proc_dir::write_report_error(&error);
-        return std::process::ExitCode::FAILURE;
-    }
+
+    mxl_investigator::proc_dir::write_report_success();
     std::process::ExitCode::SUCCESS
 }

@@ -997,7 +997,7 @@ impl Component for App {
         root: &Self::Root,
     ) {
         match msg {
-            AppMsg::PlayerInitialized => match mxl_investigator::proc_dir::failed_dir_any_panic() {
+            AppMsg::PlayerInitialized => match mxl_investigator::proc_dir::any_panic() {
                 Ok(any_panic) => {
                     if any_panic {
                         sender.input(AppMsg::ProblemReportDialogOpen);

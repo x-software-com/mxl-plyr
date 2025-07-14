@@ -18,7 +18,7 @@ const fn about_text() -> &'static str {
 pub struct CliArgs {
     /// Export a bug report to the specified zip archive file
     #[arg(long, exclusive(true), value_name("ZIP_FILE"))]
-    pub export_bug_report: Option<std::path::PathBuf>,
+    pub export_report: Option<std::path::PathBuf>,
     /// Update the GStreamer registry
     #[arg(long)]
     pub update_registry: bool,
