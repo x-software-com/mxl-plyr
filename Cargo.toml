@@ -42,7 +42,7 @@ mxl-player-components = "0.1"
 # Internationalization:
 i18n-embed-fl = "0.9"
 rust-embed = { version = "8", features = ["debug-embed"] }
-i18n-embed = { version = "0.15", features = [
+i18n-embed = { version = "0.16", features = [
     "fluent-system",
     "desktop-requester",
 ] }
