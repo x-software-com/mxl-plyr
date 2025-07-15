@@ -28,15 +28,6 @@ default:
 # Setup the environment:
 #
 
-setup-cargo-hack:
-    cargo install cargo-hack
-
-setup-cargo-audit:
-    cargo install cargo-audit
-
-setup-cargo-machete:
-    cargo install cargo-machete
-
 setup-mxl-env: install-vcpkg
     ./scripts/mxl-env.py --print-env --no-export-print-env > .mxl-env
     @echo "Created '.mxl-env' file"
@@ -49,18 +40,25 @@ setup-cargo-tools:
     cargo install typos-cli
     cargo install cargo-bundle-licenses
     cargo install cargo-version-util
+    cargo install cargo-hack
+    cargo install cargo-audit
+
+setup-cargo-dev-tools:
+    cargo install cargo-edit
+    cargo install cargo-upgrades
+    cargo install cargo-machete
 
 setup-cocogitto:
     cargo install cocogitto
     cog install-hook --overwrite commit-msg
 
-setup: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-machete setup-cargo-tools setup-cocogitto self-update remove-mxl-env
+setup: setup-git setup-cargo-dev-tools setup-cargo-tools setup-cocogitto self-update remove-mxl-env
     @echo "Done"
 
-setup-vcpkg: setup-git setup-cargo-hack setup-cargo-audit setup-cargo-machete setup-cargo-tools setup-cocogitto self-update setup-mxl-env
+setup-vcpkg: setup-git setup-cargo-dev-tools setup-cargo-tools setup-cocogitto self-update setup-mxl-env
     @echo "Done"
 
-setup-ci: setup-cargo-hack setup-cargo-audit setup-cargo-tools setup-mxl-env
+setup-ci: setup-cargo-tools setup-mxl-env
     git config --global --add safe.directory $(pwd)
 
 #
@@ -102,17 +100,20 @@ makeself-from-appimage:
 # Recipes for cargo:
 #
 
-hack: setup-cargo-hack
+hack: setup-cargo-tools
     cargo hack --feature-powerset --no-dev-deps check
 
 clippy:
     cargo clippy --quiet --release --all-targets --all-features
 
-audit: setup-cargo-audit
+audit: setup-cargo-tools
     cargo audit
 
-machete: setup-cargo-machete
+machete: setup-cargo-dev-tools
     cargo machete --with-metadata
+
+upgrades: setup-cargo-dev-tools
+    cargo upgrades
 
 cargo-fmt:
     cargo fmt --all
