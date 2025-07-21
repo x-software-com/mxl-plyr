@@ -2,6 +2,43 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v1.2.1](https://github.com/x-software-com/mxl-plyr/compare/8c335cbe899c76eb9cd9ab4cd015e69b48402bfb..v1.2.1) - 2025-07-21
+#### Build system
+- add cargo-upgrades to justfile - ([2155fcc](https://github.com/x-software-com/mxl-plyr/commit/2155fcc721c0222d02acbb4e9345a41076078c2f)) - acpiccolo
+#### Miscellaneous Chores
+- **(deps)** cargo update - ([078b692](https://github.com/x-software-com/mxl-plyr/commit/078b692234d9958615703b907431222e2872bab7)) - marcbull
+- **(deps)** bump clap from 4.5.31 to 4.5.40 - ([1c51f35](https://github.com/x-software-com/mxl-plyr/commit/1c51f355d4185f47b248a123f63117baca8172b6)) - dependabot[bot]
+- **(deps)** bump mxl-player-components from 0.1.3 to 0.1.4 - ([b7367e5](https://github.com/x-software-com/mxl-plyr/commit/b7367e589a6d259f6c27c5c4fe9b77ffecf12843)) - dependabot[bot]
+- **(deps)** bump i18n-embed from 0.15.3 to 0.15.4 - ([bb195e1](https://github.com/x-software-com/mxl-plyr/commit/bb195e111c7683ff75aa85b06caa2a563e694006)) - dependabot[bot]
+- **(deps)** bump rust-embed from 8.6.0 to 8.7.2 - ([55560da](https://github.com/x-software-com/mxl-plyr/commit/55560da57f61f5a3ec5161497e5058d255b3d9c4)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.33.1 to 1.34.0 - ([f6b328e](https://github.com/x-software-com/mxl-plyr/commit/f6b328e70b56f0cfd84c99a54ebdeec17801fd14)) - dependabot[bot]
+- **(deps)** bump anyhow from 1.0.97 to 1.0.98 - ([5525a86](https://github.com/x-software-com/mxl-plyr/commit/5525a86a8023a12a94506252046b0bcf9cc70d76)) - dependabot[bot]
+- **(deps)** bump log from 0.4.26 to 0.4.27 - ([79ca3dc](https://github.com/x-software-com/mxl-plyr/commit/79ca3dcc7549f4479c1c450a5eff3d56571f5d7d)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.30.1 to 1.33.1 - ([76cb7e4](https://github.com/x-software-com/mxl-plyr/commit/76cb7e4949e9b403c03da00978c72ef2b224bbfe)) - dependabot[bot]
+- **(deps)** bump ncipollo/release-action from 1.16.0 to 1.18.0 - ([58a5d32](https://github.com/x-software-com/mxl-plyr/commit/58a5d3255e474eaaa0092bb4772c7fa608ccfd0d)) - dependabot[bot]
+- **(deps)** bump chrono from 0.4.40 to 0.4.41 - ([493e856](https://github.com/x-software-com/mxl-plyr/commit/493e85652448614274821f900021e21834ffaa80)) - dependabot[bot]
+- **(deps)** bump crossbeam-channel from 0.5.14 to 0.5.15 - ([4ba17f0](https://github.com/x-software-com/mxl-plyr/commit/4ba17f088e9691c929c347547a641253d4e17c19)) - dependabot[bot]
+- **(deps)** bump tokio from 1.43.0 to 1.44.2 - ([349330e](https://github.com/x-software-com/mxl-plyr/commit/349330e88bd8e1140d8c875663350c9db41cd93e)) - dependabot[bot]
+- **(deps)** bump zip from 2.2.3 to 2.4.1 - ([dde9aac](https://github.com/x-software-com/mxl-plyr/commit/dde9aac31dd0699aa2849e7e69fa19658d8460e5)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.30.0 to 1.30.1 - ([616996f](https://github.com/x-software-com/mxl-plyr/commit/616996faa60d18ff03d04ece76ab8474cf635897)) - dependabot[bot]
+- **(deps)** bump serde from 1.0.218 to 1.0.219 - ([8c335cb](https://github.com/x-software-com/mxl-plyr/commit/8c335cbe899c76eb9cd9ab4cd015e69b48402bfb)) - dependabot[bot]
+- fix clippy issues - ([0f6d590](https://github.com/x-software-com/mxl-plyr/commit/0f6d5905d8457bada06bba9c596393049c6b95ac)) - marcbull
+- add desktop-file-utils to shell.nix - ([3ab70e9](https://github.com/x-software-com/mxl-plyr/commit/3ab70e96a9fcc085d3827cc6845339c0ae58e5d2)) - marcbull
+- cargo update - ([90996fd](https://github.com/x-software-com/mxl-plyr/commit/90996fd4db32c6fdd2051879023cc3cc106b7ce2)) - marcbull
+- upgrade dependencies - ([111b963](https://github.com/x-software-com/mxl-plyr/commit/111b96370e0b484668d8b0befdb93b715f9b29ac)) - acpiccolo
+- upgrade mxl-investigator - ([f5a18d6](https://github.com/x-software-com/mxl-plyr/commit/f5a18d665cde960e0a3bebab73a0b487421869c8)) - acpiccolo
+- add vscode and appimage-run and remove vim in shell.nix - ([551ef19](https://github.com/x-software-com/mxl-plyr/commit/551ef19c16d7935db05123671f76299a526414bd)) - marcbull
+- update mxl-scripts - ([5c849a1](https://github.com/x-software-com/mxl-plyr/commit/5c849a140d46f8b2db2f5201ab784ccec0f34f66)) - marcbull
+- add missing development dependency to shell.nix - ([702ed7d](https://github.com/x-software-com/mxl-plyr/commit/702ed7d7546433948d54e4f4b97fba1adec3c7cc)) - marcbull
+- add shell.nix and update README.md (#101) - ([d7f197d](https://github.com/x-software-com/mxl-plyr/commit/d7f197d915289a96baf608b5590e35f0458e303d)) - [@marcbull](https://github.com/marcbull)
+- fix argument for just - ([57fcc3c](https://github.com/x-software-com/mxl-plyr/commit/57fcc3c09571859c03d932bde254f34cd398bd23)) - marcbull
+- add libfmtd.so.11 to lib_ignores in sancus.yaml - ([c14a9a9](https://github.com/x-software-com/mxl-plyr/commit/c14a9a9b8462c07599e0f05a80f447fa5934dcdb)) - marcbull
+- fix debug build in local docker image - ([3d251d3](https://github.com/x-software-com/mxl-plyr/commit/3d251d32f0193063de0d59ffefdee27e5b1390c8)) - marcbull
+- update vcpkg to 2025.06.13 and gstreamer to 1.26.3 (#100) - ([13ac8cf](https://github.com/x-software-com/mxl-plyr/commit/13ac8cf298c00430201eec9ba344c045f7384355)) - [@marcbull](https://github.com/marcbull)
+- add support for nixos with devenv - ([a39947d](https://github.com/x-software-com/mxl-plyr/commit/a39947d877b8e149e3332fc9df152d5874427b14)) - marcbull
+
+- - -
+
 ## [v1.2.0](https://github.com/x-software-com/mxl-plyr/compare/01eb43a787845058b6c82cda2b41c386b030c5a2..v1.2.0) - 2025-03-05
 #### Build system
 - cargo update - ([e442fa9](https://github.com/x-software-com/mxl-plyr/commit/e442fa95a0df2e36f6eac149146a9728841ba4c5)) - marcbull
