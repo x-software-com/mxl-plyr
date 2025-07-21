@@ -1255,7 +1255,7 @@ impl Component for App {
                         self.message_dialog.emit(MessageDialogInput::Message(
                             MessageDialogType::Error,
                             None,
-                            format!("{:?}", error),
+                            format!("{error:?}"),
                         ));
                     }
                 };
@@ -1322,7 +1322,7 @@ impl Component for App {
                     self.message_dialog.emit(MessageDialogInput::Message(
                         MessageDialogType::Fatal,
                         None,
-                        format!("{:?}", error),
+                        format!("{error:?}"),
                     ));
                 } else {
                     sender.input(AppMsg::PlayerInitialized);
