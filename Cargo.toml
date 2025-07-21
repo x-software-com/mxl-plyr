@@ -56,7 +56,7 @@ dmabuf = ["mxl-player-components/dmabuf"]
 
 [build-dependencies]
 vergen-gitcl = { version = "1", features = ["build", "cargo", "rustc", "si"] }
-glib-build-tools = "0.20"
+glib-build-tools = "0.21"
 
 [package.metadata.cargo-machete]
 ignored = ["glib-build-tools", "vergen-gitcl"]
