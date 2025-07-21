@@ -85,6 +85,7 @@ in
         gtk4
         gsettings-desktop-schemas
         freetds
+        desktop-file-utils
 
         libva.dev
         libdrm.dev
