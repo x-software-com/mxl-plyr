@@ -24,7 +24,7 @@ jobs:
       sha: ${{ steps.docker-build.outputs.sha-tag }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: true
       - name: Build docker image
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
           # Fetch all commits to generate the changelog
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
           # Fetch all commits to generate the changelog
@@ -80,7 +80,7 @@ jobs:
       checks: write
     needs: [build_docker]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - name: Check for typos
@@ -102,7 +102,7 @@ jobs:
         toolchain: [stable, beta]
     needs: [build_docker]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - name: Setup MXL Plyr build environment
@@ -131,7 +131,7 @@ jobs:
         shell: bash {0}
     needs: [build_docker]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - name: Setup MXL Plyr build environment
@@ -159,7 +159,7 @@ jobs:
         shell: bash {0}
     needs: [build_docker]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: true
           # Fetch all commits to generate the changelog
