@@ -16,6 +16,9 @@ result_dir := "result"
 vcpkg_version := "2025.06.13"
 vcpkg_cache_dir := package + "-archive"
 
+# Default Rust toolchain
+rust-toolchain := "stable"
+
 alias c := config
 alias b := build
 alias i := install
@@ -100,11 +103,14 @@ makeself-from-appimage:
 # Recipes for cargo:
 #
 
-hack: setup-cargo-tools
-    cargo hack --feature-powerset --no-dev-deps check
+test rust-toolchain=rust-toolchain:
+    cargo +{{rust-toolchain}} test --no-fail-fast --workspace --locked --all-features --all-targets
 
-clippy:
-    cargo clippy --quiet --release --all-targets --all-features
+hack rust-toolchain=rust-toolchain: setup-cargo-tools
+    cargo +{{rust-toolchain}} hack --feature-powerset --no-dev-deps check
+
+clippy rust-toolchain=rust-toolchain:
+    cargo +{{rust-toolchain}} clippy --quiet --release --all-targets --all-features
 
 audit: setup-cargo-tools
     cargo audit

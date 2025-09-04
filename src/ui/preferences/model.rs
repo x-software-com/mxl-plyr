@@ -5,11 +5,13 @@ use mxl_relm4_components::relm4::Controller;
 pub struct PreferencesComponentInit {
     pub color_scheme: ColorScheme,
     pub auto_play: bool,
+    pub drop_frames: bool,
     pub decoder_info: CodecInfoList,
 }
 
 pub struct PreferencesComponentModel {
     pub(super) color_scheme: ColorScheme,
     pub(super) auto_play: bool,
+    pub(super) drop_frames: bool,
     pub(super) decoder_ranking: Controller<CodecRankingComponentModel>,
 }
