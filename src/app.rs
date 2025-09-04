@@ -43,7 +43,6 @@ use mxl_relm4_components::{
         gtk::{gio, glib},
         prelude::*,
     },
-    relm4_components::open_dialog::*,
     third_party_licenses_dialog::model::ThirdPartyLicensesComponentModel,
 };
 use relm4_icons::icon_names;
@@ -101,7 +100,7 @@ pub struct App {
     message_dialog: Controller<MessageDialog>,
     problem_report_dialog: Controller<ProblemReportDialog>,
     create_report_dialog: Controller<CreateReportDialog>,
-    file_open_dialog: Controller<OpenDialogMulti>,
+    file_open_dialog: gtk::FileDialog,
     video_offsets_dialog: Controller<VideoOffsetsComponentModel>,
     about_dialog: adw::AboutWindow,
     preferences_dialog: Controller<PreferencesComponentModel>,
@@ -148,8 +147,6 @@ pub enum AppMsg {
     Next,
     PlayerMediaInfoUpdated(PlayMediaInfo),
     FileChooserRequest,
-    FileChooserAccept(Vec<PathBuf>),
-    FileChooserIgnore,
     ShowAboutDialog,
     ShowVideoOffsetsDialog,
     ShowPreferencesDialog,
@@ -611,6 +608,10 @@ impl Component for App {
                 })
                 .detach(),
             file_open_dialog: {
+                let filters = gio::ListStore::new::<gtk::FileFilter>();
+
+                let media_filter = gtk::FileFilter::new();
+                media_filter.set_name(Some(&fl!("media-files")));
                 let mut mime_types: Vec<_> = mxl_player_components::gst::ElementFactory::factories_with_type(
                     mxl_player_components::gst::ElementFactoryType::DEMUXER,
                     mxl_player_components::gst::Rank::MARGINAL,
@@ -635,35 +636,25 @@ impl Component for App {
                 .collect();
                 mime_types.dedup();
                 trace!("Supported mime types: {mime_types:?}");
+                for mime_type in mime_types {
+                    media_filter.add_mime_type(mime_type.as_str());
+                }
+                filters.append(&media_filter);
 
-                OpenDialogMulti::builder()
-                    .transient_for_native(&root)
-                    .launch(OpenDialogSettings {
-                        create_folders: false,
-                        folder_mode: false,
-                        is_modal: true,
-                        filters: vec![
-                            {
-                                let filter = gtk::FileFilter::new();
-                                filter.set_name(Some(&fl!("media-files")));
-                                for mime_type in mime_types {
-                                    filter.add_mime_type(mime_type.as_str());
-                                }
-                                filter
-                            },
-                            {
-                                let filter = gtk::FileFilter::new();
-                                filter.set_name(Some(&fl!("all-files")));
-                                filter.add_pattern("*");
-                                filter
-                            },
-                        ],
-                        ..Default::default()
-                    })
-                    .forward(sender.input_sender(), |response| match response {
-                        OpenDialogResponse::Accept(path) => AppMsg::FileChooserAccept(path),
-                        OpenDialogResponse::Cancel => AppMsg::FileChooserIgnore,
-                    })
+                let all_files_filter = gtk::FileFilter::new();
+                all_files_filter.set_name(Some(&fl!("all-files")));
+                all_files_filter.add_pattern("*");
+                filters.append(&all_files_filter);
+
+                gtk::FileDialog::builder()
+                    .modal(true)
+                    .filters(&filters)
+                    .initial_folder(&gtk::gio::File::for_path(
+                        mxl_base::misc::user_dirs()
+                            .video_dir()
+                            .unwrap_or_else(|| mxl_base::misc::user_dirs().home_dir()),
+                    ))
+                    .build()
             },
             video_offsets_dialog: {
                 VideoOffsetsComponentModel::builder()
@@ -1257,9 +1248,37 @@ impl Component for App {
                 self.dump_pipeline();
                 widgets.toast_overlay.add_toast(toast(fl!("dumped-pipeline"), 1));
             }
-            AppMsg::FileChooserRequest => self.file_open_dialog.emit(OpenDialogMsg::Open),
-            AppMsg::FileChooserAccept(paths) => self.playlist_component.emit(PlaylistComponentInput::Add(paths)),
-            AppMsg::FileChooserIgnore => (),
+            AppMsg::FileChooserRequest => {
+                glib::spawn_future_local({
+                    let future = self
+                        .file_open_dialog
+                        .open_multiple_future(root.toplevel_window().as_ref());
+                    let playlist_sender = self.playlist_component.sender().clone();
+                    let dialog = self.file_open_dialog.clone();
+                    async move {
+                        match future.await {
+                            Ok(list_model) => {
+                                debug!("Open files: {list_model:?}");
+                                let files: Vec<PathBuf> = list_model
+                                    .iter::<gio::File>()
+                                    .filter_map(Result::ok)
+                                    .filter_map(|file| file.path())
+                                    .collect();
+
+                                if !files.is_empty() {
+                                    if let Some(file) = files.last() {
+                                        if let Some(path) = file.parent() {
+                                            dialog.set_initial_folder(Some(&gtk::gio::File::for_path(path)));
+                                        }
+                                    }
+                                    playlist_sender.emit(PlaylistComponentInput::Add(files));
+                                }
+                            }
+                            Err(e) => error!("File chooser error: {e}"),
+                        }
+                    }
+                });
+            }
             AppMsg::ShowVideoOffsetsDialog => {
                 let video_offsets_dialog = self.video_offsets_dialog.widget();
                 video_offsets_dialog.present();
