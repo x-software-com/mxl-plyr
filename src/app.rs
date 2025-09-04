@@ -58,7 +58,7 @@ use crate::{
     about,
     application::{
         self,
-        preferences::{ColorScheme, PreferencesManager, WindowSize},
+        preferences::{ColorScheme, DropFrames, PreferencesManager, WindowSize},
     },
     fl,
     ui::preferences::{
@@ -187,6 +187,7 @@ pub enum AppCmd {
     PlaylistFileChooserRequest,
     PreferencesSetColorScheme(ColorScheme),
     PreferencesSetAutoPlay(bool),
+    PreferencesSetDropFrames(bool),
     PreferencesSetDecoderRank(String, gst::Rank),
     VideoOffsetsDialogAudioVideoOffsetChanged(i64),
     VideoOffsetsDialogSubtitleVideoOffsetChanged(i64),
@@ -421,6 +422,41 @@ impl Component for App {
                                     set_markup: &format!("<span font_desc=\"monospace\">{:.0}</span>", mxl_player_components::gst::ClockTime::from_seconds(model.duration as u64)),
                                 },
 
+                                gtk::MenuButton {
+                                    set_width_request: 90,
+
+                                    #[watch]
+                                    set_label: &format!("{:.1} x", model.speed),
+
+                                    set_tooltip_text: Some(&fl!("playback-speed")),
+
+                                    #[wrap(Some)]
+                                    set_popover: speed_popover = &gtk::Popover {
+                                        set_width_request: 300,
+                                        set_height_request: 100,
+
+                                        #[name(speed_slider)]
+                                        gtk::Scale {
+                                            set_adjustment = &gtk::Adjustment {
+                                                set_lower: SPEED_MIN,
+                                                set_upper: SPEED_MAX,
+                                            },
+
+                                            set_draw_value: true,
+
+                                            set_tooltip_text: Some(&fl!("playback-speed-drag-to-change")),
+
+                                            #[watch]
+                                            #[block_signal(speed_changed_handler)]
+                                            set_value: model.speed,
+
+                                            connect_value_changed[sender] => move |scale| {
+                                                sender.input(AppMsg::ChangeSpeed(scale.value()));
+                                            } @speed_changed_handler,
+                                        },
+                                    },
+                                },
+
                                 gtk::VolumeButton {
                                     set_use_symbolic: true,
 
@@ -496,11 +532,13 @@ impl Component for App {
             .launch(PreferencesComponentInit {
                 color_scheme: preferences.data().color_scheme.clone(),
                 auto_play: preferences.data().auto_play,
+                drop_frames: preferences.data().drop_frames.value(),
                 decoder_info,
             })
             .forward(sender.command_sender(), |output| match output {
                 PreferencesComponentOutput::ColorScheme(x) => AppCmd::PreferencesSetColorScheme(x),
                 PreferencesComponentOutput::AutoPlay(x) => AppCmd::PreferencesSetAutoPlay(x),
+                PreferencesComponentOutput::DropFrames(x) => AppCmd::PreferencesSetDropFrames(x),
                 PreferencesComponentOutput::DecoderRank(name, rank) => AppCmd::PreferencesSetDecoderRank(name, rank),
             });
 
@@ -510,6 +548,8 @@ impl Component for App {
                     seek_accurate: false,
                     show_seeking_overlay: false,
                     compositor: app_init.compositor,
+                    qos: DropFrames::qos(),
+                    max_lateness: preferences.data().drop_frames.max_lateness(),
                     draw_callback: Box::new(|_, _| {}),
                     drag_gesture: None,
                     motion_tracker: None,
@@ -966,6 +1006,10 @@ impl Component for App {
         model.set_audio_track_menu(None);
 
         widgets
+            .speed_slider
+            .add_mark(SPEED_DEFAULT, gtk::PositionType::Top, None);
+
+        widgets
             .playback_stack_page_view
             .add_controller(PlaylistComponentModel::new_drop_target(
                 model.playlist_component.sender().clone(),
@@ -1075,6 +1119,7 @@ impl Component for App {
                     .unwrap_or_default();
             }
             AppMsg::Stopped => {
+                sender.input(AppMsg::ResetSpeed);
                 self.set_audio_track_menu(None);
                 if self.request_exit {
                     sender.input(AppMsg::Quit);
@@ -1424,6 +1469,12 @@ impl Component for App {
             }
             AppCmd::PreferencesSetAutoPlay(value) => {
                 self.preferences.data_mut().auto_play = value;
+            }
+            AppCmd::PreferencesSetDropFrames(value) => {
+                self.preferences.data_mut().drop_frames.set_value(value);
+                self.player_component
+                    .model()
+                    .set_max_lateness(&self.preferences.data().drop_frames.max_lateness());
             }
             AppCmd::PreferencesSetDecoderRank(name, rank) => {
                 warn!("Encoder enabled: {name} = {rank:?}");

@@ -1,4 +1,5 @@
 use super::version1;
+use super::version2;
 use crate::about;
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
@@ -7,19 +8,23 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 enum PreferencesStorage {
     Version1(version1::PreferencesData),
+    Version2(version2::PreferencesData),
 }
 
 impl From<PreferencesStorage> for super::PreferencesData {
     fn from(cnf: PreferencesStorage) -> Self {
         match cnf {
-            PreferencesStorage::Version1(s) => s,
+            PreferencesStorage::Version1(s) => {
+                Self::from(PreferencesStorage::Version2(version2::PreferencesData::from(s)))
+            }
+            PreferencesStorage::Version2(s) => s,
         }
     }
 }
 
 impl From<super::PreferencesData> for PreferencesStorage {
     fn from(s: super::PreferencesData) -> Self {
-        PreferencesStorage::Version1(s.clone())
+        PreferencesStorage::Version2(s.clone())
     }
 }
 
@@ -74,5 +79,15 @@ impl PreferencesManager {
 
     pub fn data(&self) -> &super::PreferencesData {
         &self.data
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn test_next_version() {
+        let cnf = super::super::PreferencesData::default();
+        _ = super::super::version_next::PreferencesData::from(cnf);
     }
 }

@@ -115,6 +115,34 @@ jobs:
         uses: auguwu/clippy-action@1.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    name: hack
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/check:${{ needs.build_docker.outputs.sha }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      checks: write
+    defaults:
+      run:
+        shell: bash {0}
+    needs: [build_docker]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: true
+      - name: Setup MXL Plyr build environment
+        uses: ./.github/workflows/mxl-setup
+        with:
+          rust-toolchain: stable
+          just-config: false
+      - name: cargo test
+        run: |
+          source /etc/profile
+          just test
   hack:
     name: hack
     runs-on: ubuntu-latest

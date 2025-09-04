@@ -47,7 +47,22 @@ impl Component for PreferencesComponentModel {
                             set_active: model.auto_play,
                             set_valign: gtk::Align::Center,
                             connect_state_notify[sender] => move |switch| {
-                                sender.input(PreferencesComponentInput::SetAutoPlay(switch.state()));
+                                sender.input(PreferencesComponentInput::AutoPlay(switch.state()));
+                            }
+                        },
+                    },
+                    adw::ActionRow {
+                        set_title: &fl!("drop-frames"),
+                        set_subtitle: &fl!("drop-frames", "description"),
+                        set_activatable: true,
+                        set_activatable_widget: Some(&drop_frames_widget),
+                        #[name(drop_frames_widget)]
+                        add_suffix = &gtk::Switch {
+                            set_state: model.drop_frames,
+                            set_active: model.drop_frames,
+                            set_valign: gtk::Align::Center,
+                            connect_state_notify[sender] => move |switch| {
+                                sender.input(PreferencesComponentInput::DropFrames(switch.state()));
                             }
                         },
                     },
@@ -70,9 +85,9 @@ impl Component for PreferencesComponentModel {
                         },
                         connect_selected_notify[sender] => move |combo_row| {
                             match combo_row.selected() {
-                                COLOR_SCHEME_LIGHT_MODE => sender.input_sender().send(PreferencesComponentInput::SetColorScheme(ColorScheme::Light)).unwrap(),
-                                COLOR_SCHEME_DARK_MODE => sender.input_sender().send(PreferencesComponentInput::SetColorScheme(ColorScheme::Dark)).unwrap(),
-                                _ /*DEFAULT_MODE*/ => sender.input_sender().send(PreferencesComponentInput::SetColorScheme(ColorScheme::Default)).unwrap(),
+                                COLOR_SCHEME_LIGHT_MODE => sender.input_sender().send(PreferencesComponentInput::ColorScheme(ColorScheme::Light)).unwrap(),
+                                COLOR_SCHEME_DARK_MODE => sender.input_sender().send(PreferencesComponentInput::ColorScheme(ColorScheme::Dark)).unwrap(),
+                                _ /*DEFAULT_MODE*/ => sender.input_sender().send(PreferencesComponentInput::ColorScheme(ColorScheme::Default)).unwrap(),
                             }
                         },
                     },
@@ -88,6 +103,7 @@ impl Component for PreferencesComponentModel {
         let model = PreferencesComponentModel {
             color_scheme: init.color_scheme,
             auto_play: init.auto_play,
+            drop_frames: init.drop_frames,
             decoder_ranking: CodecRankingComponentModel::builder()
                 .launch(CodecRankingComponentInit {
                     title: fl!("preferences", "video-decoder"),
@@ -113,15 +129,20 @@ impl Component for PreferencesComponentModel {
         _: &Self::Root,
     ) {
         match msg {
-            PreferencesComponentInput::SetColorScheme(scheme) => {
+            PreferencesComponentInput::ColorScheme(scheme) => {
                 sender
                     .output(PreferencesComponentOutput::ColorScheme(scheme))
                     .unwrap_or_default();
             }
-            PreferencesComponentInput::SetAutoPlay(value) => {
+            PreferencesComponentInput::AutoPlay(value) => {
                 sender
                     .output(PreferencesComponentOutput::AutoPlay(value))
                     .unwrap_or_default();
+            }
+            PreferencesComponentInput::DropFrames(value) => {
+                sender
+                    .output_sender()
+                    .emit(PreferencesComponentOutput::DropFrames(value));
             }
         }
         self.update_view(widgets, sender)

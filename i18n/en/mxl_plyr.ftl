@@ -42,6 +42,8 @@ dumped-pipeline = Dumped pipeline
 license-active-failed-title = Failed licensing
 get-failed-procs-failed-title = Failed to get failed executions
 report-creation-succeeded = The report was successfully saved to '{$file_name}'
+playback-speed = Playback speed
+playback-speed-drag-to-change = Drag to change the playback speed
 
 # Preferences ui
 preferences = Preferences
@@ -49,9 +51,11 @@ preferences = Preferences
     .appearance = Appearance
     .video-decoder = Video decoder
 auto-play = Auto play
-    .description = Auto play starts the playback automatically if the application is started with a file
+    .description = Auto play starts the playback automatically if the application is started with a file.
+drop-frames = Drop frames
+    .description = When enabled, the system will discard any frames that are late to reduce system load. Otherwise, all frames will be displayed.
 color-scheme = Color scheme
-    .description = Set the color scheme of the application
+    .description = Set the color scheme of the application.
     .default = System
     .dark = Dark
     .light = Light
