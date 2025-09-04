@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v1.3.0](https://github.com/x-software-com/mxl-plyr/compare/ed3c5bc6aac37ff4e49f416762bd098bc707f6b7..v1.3.0) - 2025-09-04
+#### Bug Fixes
+- replace relm4 file dialog with gtk4 to select default directory - ([7568e82](https://github.com/x-software-com/mxl-plyr/commit/7568e826a95c4b2de5e49820651400abd7e956a8)) - marcbull
+#### Features
+- implement speed slider - ([0bec7d9](https://github.com/x-software-com/mxl-plyr/commit/0bec7d936a1f2b7df0d2723fc162dbaf15a8c322)) - marcbull
+#### Miscellaneous Chores
+- **(deps)** bump actions/download-artifact from 4 to 5 - ([d6a2a61](https://github.com/x-software-com/mxl-plyr/commit/d6a2a616287d68e6387e3b766bddc28d0cbe85b6)) - dependabot[bot]
+- **(deps)** bump actions/checkout from 4 to 5 - ([7ab6114](https://github.com/x-software-com/mxl-plyr/commit/7ab6114bad5e47a8bd6749a137124131afbea8f7)) - dependabot[bot]
+- **(deps)** bump slab from 0.4.10 to 0.4.11 - ([fa3cb74](https://github.com/x-software-com/mxl-plyr/commit/fa3cb7410b2e8c2ab94d992c4da59ddacadf5f3b)) - dependabot[bot]
+- **(deps)** bump glib-build-tools from 0.20.0 to 0.21.0 - ([d09f890](https://github.com/x-software-com/mxl-plyr/commit/d09f89040402598c80a0e6654604cd474adb2dd8)) - dependabot[bot]
+- **(deps)** bump crate-ci/typos from 1.34.0 to 1.35.5 - ([ed3c5bc](https://github.com/x-software-com/mxl-plyr/commit/ed3c5bc6aac37ff4e49f416762bd098bc707f6b7)) - dependabot[bot]
+- cargo update - ([e5d7af1](https://github.com/x-software-com/mxl-plyr/commit/e5d7af15aca220abd849cecd2a84b4f39ae25557)) - marcbull
+
+- - -
+
 ## [v1.2.1](https://github.com/x-software-com/mxl-plyr/compare/8c335cbe899c76eb9cd9ab4cd015e69b48402bfb..v1.2.1) - 2025-07-21
 #### Build system
 - add cargo-upgrades to justfile - ([2155fcc](https://github.com/x-software-com/mxl-plyr/commit/2155fcc721c0222d02acbb4e9345a41076078c2f)) - acpiccolo
