@@ -42,7 +42,6 @@ in
         stdenv
         gcc
         libgcc.lib
-        iconv.dev
         nasm
         yasm
         flex
@@ -69,24 +68,22 @@ in
         gdb
         gettext
         gperf
-        libtool
         glib
-        libxkbcommon.dev
         m4
         ninja
         pkg-config
-        graphene.dev
         fribidi
         fontconfig
         freetype
-        zip
-        zstd.dev
-        vulkan-loader.dev
         gtk4
         gsettings-desktop-schemas
         freetds
         desktop-file-utils
 
+        iconv.dev
+        zstd.dev
+        graphene.dev
+        vulkan-loader.dev
         libva.dev
         libdrm.dev
         libglvnd.dev
@@ -97,6 +94,7 @@ in
         kdePackages.wayland.dev
         kdePackages.wayland-protocols
         wayland-scanner
+        libxkbcommon.dev
         xorg.libxcb.dev
         xorg.libxcb
         xorg.xcbutilimage.dev
@@ -159,6 +157,17 @@ in
   runScript =
     with pkgs;
     pkgs.writeScript "init.sh" ''
+      echo "================================"
+      echo "MXL Plyr Development Environment"
+      echo "--------------------------------"
+      echo "Rust version: $(rustc --version)"
+      echo "Cargo version: $(cargo --version)"
+      echo "GCC version: $(gcc --version | grep gcc)"
+      echo "Python version: $(python3 --version)"
+      echo "Nixpkgs version: ${pkgs.lib.version}"
+      echo "Docker version: $(docker --version 2>/dev/null || echo 'Docker not available')"
+      echo ""
+
       # By default the GDK backend is set to Wayland on NixOS.
       # This fixes an issue with NVIDIA/GTK4/GStreamer (gtk4paintablesink) under Wayland, where the playback is very slow and choppy.
       # Check in the future, if this issue still exists, so we can remove this workaround.
