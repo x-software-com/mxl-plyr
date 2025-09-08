@@ -3,7 +3,7 @@ vcpkg_from_gitlab(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO gstreamer/gstreamer
     REF "${VERSION}"
-    SHA512 0f5f20295d3a0077a9b8cbc8ff3a9b228b1c5f2b3cc157f0b49ae110772d0d64a61ef3ca1479ac2f1b4943ccd25558de7c6a8151bc50c884679b75dbf4b300e0
+    SHA512 2870d76fffd68bb5c702766a5dd3aa95f864c56a1d19444a3ad0a0e38fa1c66b25d61d5eb31046a3c53b875499ce7b784277cc9bf0bcbf698f35df0fb6a7b3f1
     HEAD_REF main
     PATCHES
         fix-clang-cl.patch
@@ -118,6 +118,7 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
         wildmidi        gst-plugins-bad:wildmidi
         x11             gst-plugins-bad:x11
         x265            gst-plugins-bad:x265
+        amd-amf         gst-plugins-bad:amfcodec
 )
 
 string(REPLACE "OFF" "disabled" FEATURE_OPTIONS "${FEATURE_OPTIONS}")
