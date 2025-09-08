@@ -53,6 +53,18 @@ RUN dnf -y reinstall libblkid lz4-libs \
   && dnf clean all \
   && rm -rf /var/cache/dnf
 
+ARG PACKAGE=autoconf
+ARG VERSION=2.70
+RUN cd /tmp \
+  && curl -L -O https://ftp.gnu.org/gnu/${PACKAGE}/${PACKAGE}-${VERSION}.tar.xz \
+  && tar -xf ${PACKAGE}-${VERSION}.tar.xz \
+  && cd ${PACKAGE}-${VERSION} \
+  && source /etc/profile.d/compiler.sh \
+  && ./configure \
+  && make -j$(nproc) \
+  && make install -j$(nproc) \
+  && rm -rf /tmp/${PACKAGE}*
+
 COPY pkg-config /usr/local/bin
 
 RUN echo -e "export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig\${PKG_CONFIG_PATH:+:\${PKG_CONFIG_PATH}}" >> /etc/profile.d/pkg-config-path.sh
