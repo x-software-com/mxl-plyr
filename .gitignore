@@ -20,4 +20,4 @@ __pycache__
 !.vscode/extensions.json
 
 # Ignore the project specific cargo directory for NixOS
-.cargo
+.cargo-cache
