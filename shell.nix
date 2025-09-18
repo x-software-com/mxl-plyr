@@ -80,6 +80,7 @@ in
         freetds
         desktop-file-utils
 
+        openssl.dev
         iconv.dev
         zstd.dev
         graphene.dev
