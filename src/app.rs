@@ -515,7 +515,10 @@ impl Component for App {
         App::set_color_scheme(&preferences.data().color_scheme);
 
         let playlist_component = PlaylistComponentModel::builder()
-            .launch(PlaylistComponentInit { uris: app_init.uris })
+            .launch(PlaylistComponentInit {
+                uris: app_init.uris.into_iter().map(|x| x.into()).collect(),
+                ..Default::default()
+            })
             .forward(sender.command_sender(), |output| match output {
                 PlaylistComponentOutput::PlaylistChanged(_) => AppCmd::PlaylistChanged,
                 PlaylistComponentOutput::SwitchUri(x) => AppCmd::PlaylistSwitchUri(x),
@@ -547,7 +550,7 @@ impl Component for App {
                     compositor: app_init.compositor,
                     qos: DropFrames::qos(),
                     max_lateness: preferences.data().drop_frames.max_lateness(),
-                    draw_callback: Box::new(|_, _| {}),
+                    draw_callback: None,
                     drag_gesture: None,
                     motion_tracker: None,
                 })
