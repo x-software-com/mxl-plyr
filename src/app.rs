@@ -25,7 +25,7 @@ use mxl_player_components::{
             model::{PlayerComponentInit, PlayerComponentModel},
         },
         playlist::{
-            messages::{PlaylistComponentInput, PlaylistComponentOutput, PlaylistState},
+            messages::{PlaylistComponentInput, PlaylistComponentOutput, PlaylistState, RepeatMode},
             model::{PlaylistComponentInit, PlaylistComponentModel},
         },
         video_offsets_dialog::{
@@ -515,7 +515,13 @@ impl Component for App {
         App::set_color_scheme(&preferences.data().color_scheme);
 
         let playlist_component = PlaylistComponentModel::builder()
-            .launch(PlaylistComponentInit { uris: app_init.uris })
+            .launch(PlaylistComponentInit {
+                uris: app_init.uris.into_iter().map(|x| x.into()).collect(),
+                mark_index_as_playing: None,
+                repeat: RepeatMode::Off,
+                is_user_mutable: true,
+                show_file_index: false,
+            })
             .forward(sender.command_sender(), |output| match output {
                 PlaylistComponentOutput::PlaylistChanged(_) => AppCmd::PlaylistChanged,
                 PlaylistComponentOutput::SwitchUri(x) => AppCmd::PlaylistSwitchUri(x),
