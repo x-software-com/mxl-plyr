@@ -30,7 +30,7 @@ fn main() {
     println!("cargo:rerun-if-changed=i18n/de/mxl_plyr.ftl");
 
     //
-    // Add link search path to find libararies in the installation directory:
+    // Add link search path to find libraries in the installation directory:
     //
     println!("cargo:rustc-link-search=native=../lib");
 
