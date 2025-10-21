@@ -144,7 +144,7 @@ remove-mxl-env:
     rm -f .mxl-env
     @echo "Removed '.mxl-env' file"
 
-clean:
+clean: _clean-vcpkg
     cargo clean
     rm -rf vcpkg_installed vcpkg {{builddir}}
 
@@ -154,8 +154,17 @@ clean-build: clean
     find . -name "*_third_party_licenses.json" -delete
     find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
 
-clean-cache: clean-build
+clean-cargo-cache:
+    rm -rf .cargo-cache
+
+_clean-vcpkg:
+    rm -rf vcpkg_installed vcpkg
+
+clean-vcpkg-cache: _clean-vcpkg
     rm -rf ~/.cache/vcpkg/{{vcpkg_cache_dir}}
+
+clean-cache: clean-build clean-cargo-cache clean-vcpkg-cache
+    @echo "Cleaned all cache directories"
 
 #
 # Docker image for local testing:
