@@ -146,3 +146,10 @@ RUN cd /tmp \
   && /tmp/makeself-${VERSION}.run \
   && mv makeself-${VERSION} makeself \
   && rm /tmp/makeself-${VERSION}.run
+
+# Requirements for 'crate-ci/typos' (https://github.com/crate-ci/typos)
+# NOTE: This has to be installed after makeself, otherwise the installation will fail :-/
+RUN yum -y install jq \
+  && yum clean all \
+  && rm -rf /var/cache/yum
+
