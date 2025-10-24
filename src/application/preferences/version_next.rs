@@ -1,3 +1,4 @@
+#![allow(dead_code)] // Comment out only on the current version
 use mxl_player_components::player::MaxLateness;
 use serde::{Deserialize, Serialize};
 
