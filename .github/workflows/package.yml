@@ -163,7 +163,7 @@ jobs:
         with:
           rust-toolchain: stable
       - name: Download artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: AppImage-x86_64
           path: result
@@ -203,7 +203,7 @@ jobs:
         with:
           rust-toolchain: stable
       - name: Fetch all uploaded artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: result
       - name: Create release notes
