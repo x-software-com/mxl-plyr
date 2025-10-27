@@ -68,23 +68,23 @@ jobs:
             just ${{ steps.setup.outputs.just-options }} linuxdeployimg 2>&1 | tee build-linuxdeployimg-x86_64.log
             just appimage-from-linuxdeployimg 2>&1 | tee build-appimage-x86_64.log
           )
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: .mxl-env
           path: .mxl-env
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: AppImage-x86_64
           path: result/MXL_Plyr-${{ steps.setup.outputs.version }}-x86_64.AppImage
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: Release-Linux-x86_64-debuginfo
           path: result/mxl_plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: build-linuxdeployimg-x86_64.log
           path: build-linuxdeployimg-x86_64.log
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: build-appimage-x86_64.log
           path: build-appimage-x86_64.log
@@ -121,23 +121,23 @@ jobs:
             just ${{ steps.setup.outputs.just-options }} linuxdeployimg 2>&1 | tee build-linuxdeployimg-debug-x86_64.log
             just ${{ steps.setup.outputs.just-options }} appimage-from-linuxdeployimg 2>&1 | tee build-appimage-debug-x86_64.log
           )
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: .mxl-env
           path: .mxl-env
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: AppImage-debug-x86_64
           path: result/MXL_Plyr_debug-${{ steps.setup.outputs.version }}-x86_64.AppImage
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: Debug-Linux-x86_64-debuginfo
           path: result/mxl_plyr-debug-${{ steps.setup.outputs.version }}-Linux-x86_64.debuginfo.tar.xz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: build-linuxdeployimg-debug-x86_64.log
           path: build-linuxdeployimg-debug-x86_64.log
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: build-appimage-debug-x86_64.log
           path: build-appimage-debug-x86_64.log
@@ -173,11 +173,11 @@ jobs:
           # set -o pipefail exits the script if a command piped with tee exits with an error
           set -o pipefail
           just makeself-from-appimage 2>&1 | tee build-makeself-linux-x86_64.log
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: Makeself-Linux-x86_64
           path: result/MXL_Plyr-${{ steps.setup.outputs.version }}-Linux-x86_64.run
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: build-makeself-linux-x86_64.log
           path: build-makeself-linux-x86_64.log
