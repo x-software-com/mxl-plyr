@@ -43,22 +43,15 @@ setup-cargo-tools:
     cargo install typos-cli
     cargo install cargo-bundle-licenses
     cargo install cargo-version-util
-    cargo install cargo-hack
-    cargo install cargo-audit
-
-setup-cargo-dev-tools:
-    cargo install cargo-edit
-    cargo install cargo-upgrades
-    cargo install cargo-machete
 
 setup-cocogitto:
     cargo install cocogitto
     cog install-hook --overwrite commit-msg
 
-setup: setup-git setup-cargo-dev-tools setup-cargo-tools setup-cocogitto self-update remove-mxl-env
+setup: setup-git setup-cargo-tools setup-cocogitto self-update remove-mxl-env
     @echo "Done"
 
-setup-vcpkg: setup-git setup-cargo-dev-tools setup-cargo-tools setup-cocogitto self-update setup-mxl-env
+setup-vcpkg: setup-git setup-cargo-tools setup-cocogitto self-update setup-mxl-env
     @echo "Done"
 
 setup-ci: setup-cargo-tools setup-mxl-env
@@ -106,19 +99,24 @@ makeself-from-appimage:
 test rust-toolchain=rust-toolchain:
     cargo +{{rust-toolchain}} test --no-fail-fast --workspace --locked --all-features --all-targets
 
-hack rust-toolchain=rust-toolchain: setup-cargo-tools
+hack rust-toolchain=rust-toolchain:
+    cargo install cargo-hack
     cargo +{{rust-toolchain}} hack --feature-powerset --no-dev-deps check
 
 clippy rust-toolchain=rust-toolchain:
     cargo +{{rust-toolchain}} clippy --quiet --release --all-targets --all-features
 
-audit: setup-cargo-tools
+audit:
+    cargo install cargo-audit
     cargo audit
 
-machete: setup-cargo-dev-tools
+machete:
+    cargo install cargo-machete
     cargo machete --with-metadata
 
-upgrades: setup-cargo-dev-tools
+upgrades:
+    cargo install cargo-edit
+    cargo install cargo-upgrades
     cargo upgrades
 
 cargo-fmt:

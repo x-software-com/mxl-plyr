@@ -29,6 +29,9 @@ typos
 echo "[ typos $1 ]"
 typos $1
 
+echo "[ just machete ]"
+just machete
+
 echo "[ cog verify ]"
 cog verify --file $1
 """
