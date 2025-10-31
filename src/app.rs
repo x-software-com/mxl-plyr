@@ -1268,10 +1268,10 @@ impl Component for App {
                                     .collect();
 
                                 if !files.is_empty() {
-                                    if let Some(file) = files.last() {
-                                        if let Some(path) = file.parent() {
-                                            dialog.set_initial_folder(Some(&gtk::gio::File::for_path(path)));
-                                        }
+                                    if let Some(file) = files.last()
+                                        && let Some(path) = file.parent()
+                                    {
+                                        dialog.set_initial_folder(Some(&gtk::gio::File::for_path(path)));
                                     }
                                     playlist_sender.emit(PlaylistComponentInput::Add(files));
                                 }

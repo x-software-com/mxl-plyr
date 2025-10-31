@@ -1,10 +1,10 @@
 use vergen_gitcl::{BuildBuilder, CargoBuilder, Emitter, GitclBuilder, RustcBuilder, SysinfoBuilder};
 
 fn get_optional_env(key: &str) -> Option<String> {
-    if let Ok(val) = std::env::var(key) {
-        if !val.is_empty() {
-            return Some(val);
-        }
+    if let Ok(val) = std::env::var(key)
+        && !val.is_empty()
+    {
+        return Some(val);
     }
     None
 }

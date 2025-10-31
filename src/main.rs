@@ -110,12 +110,12 @@ fn main() -> std::process::ExitCode {
                         path.set_file_name("");
                         bin_path = Some(path);
                     }
-                } else if let Ok(path) = std::env::var("GST_PLUGIN_SCANNER_1_0") {
-                    if !path.is_empty() {
-                        let mut path = std::path::PathBuf::from(path);
-                        path.set_file_name("");
-                        bin_path = Some(path);
-                    }
+                } else if let Ok(path) = std::env::var("GST_PLUGIN_SCANNER_1_0")
+                    && !path.is_empty()
+                {
+                    let mut path = std::path::PathBuf::from(path);
+                    path.set_file_name("");
+                    bin_path = Some(path);
                 }
                 bin_path
             };
