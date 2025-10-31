@@ -19,6 +19,7 @@ mod about;
 mod app;
 mod application;
 mod commandline;
+mod icon_names;
 mod localization;
 mod ui;
 
@@ -68,7 +69,7 @@ fn run() -> Result<()> {
 
     debug!("Files to open: {:?}", args.uris);
 
-    relm4_icons::initialize_icons();
+    relm4_icons::initialize_icons(icon_names::GRESOURCE_BYTES, icon_names::RESOURCE_PREFIX);
 
     let display = gtk::gdk::Display::default().expect("Cannot get the GDK default display");
     let icon_theme = gtk::IconTheme::for_display(&display);

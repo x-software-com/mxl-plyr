@@ -45,7 +45,6 @@ use mxl_relm4_components::{
     },
     third_party_licenses_dialog::model::ThirdPartyLicensesComponentModel,
 };
-use relm4_icons::icon_names;
 use std::{
     path::PathBuf,
     sync::{Arc, Mutex},
@@ -59,7 +58,7 @@ use crate::{
         self,
         preferences::{ColorScheme, DropFrames, PreferencesManager, WindowSize},
     },
-    fl,
+    fl, icon_names,
     ui::preferences::{
         messages::PreferencesComponentOutput,
         model::{PreferencesComponentInit, PreferencesComponentModel},
