@@ -2048,9 +2048,9 @@ dependencies = [
 
 [[package]]
 name = "mxl-investigator"
-version = "0.2.3"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db8592e1b5086116c40935b4e8b3fc90d28c4bf5584e9e9eb8d4c6c3cb3b2bd7"
+checksum = "5cbc96edfacd8331b249990e5232a8cdff044b7e5248e662eea4deff0ce9b30c"
 dependencies = [
  "anyhow",
  "chrono",
@@ -2101,9 +2101,9 @@ dependencies = [
 
 [[package]]
 name = "mxl-relm4-components"
-version = "0.2.8"
+version = "0.2.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "71b313de492ea647736a05c9e59e5a041fd48d0c5450076a5fb1e5e938600925"
+checksum = "bf14a89893d65669f3a61ba22116af4907153e2f40873793b576db963139ff2a"
 dependencies = [
  "anyhow",
  "i18n-embed",
