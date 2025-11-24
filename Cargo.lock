@@ -2073,9 +2073,9 @@ dependencies = [
 
 [[package]]
 name = "mxl-player-components"
-version = "0.1.10"
+version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39146d2402374ce670934d3fe98838f1878de0fda3a7f0ba7cbd9e8df36718e2"
+checksum = "a06c23905f95808ce20930cc4dd5221089de2793e5716a708706cb5ccaca2a10"
 dependencies = [
  "anyhow",
  "chrono",
@@ -2101,9 +2101,9 @@ dependencies = [
 
 [[package]]
 name = "mxl-relm4-components"
-version = "0.2.8"
+version = "0.2.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "71b313de492ea647736a05c9e59e5a041fd48d0c5450076a5fb1e5e938600925"
+checksum = "bf14a89893d65669f3a61ba22116af4907153e2f40873793b576db963139ff2a"
 dependencies = [
  "anyhow",
  "i18n-embed",
